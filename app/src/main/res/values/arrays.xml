@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="array_difficulty_options">
+        <item>@string/difficulty_easy</item>
+        <item>@string/difficulty_medium</item>
+        <item>@string/difficulty_hard</item>
+    </string-array>
+
+    <string-array name="array_frequency_options">
+        <item>@string/frequency_periodically</item>
+        <item>@string/frequency_daily</item>
+        <item>@string/frequency_weekly</item>
+    </string-array>
+
+</resources>

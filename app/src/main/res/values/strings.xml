@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Life Up</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Strings for Difficulty Spinner -->
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+
+    <string name="frequency_periodically">Once</string>
+    <string name="frequency_daily">Daily</string>
+    <string name="frequency_weekly">Weekly</string>
+
+    <string name="level">level</string>
+
+    <string name="first_time_dialog">The app that turns everyday tasks into an adventure</string>
+
+    <string name="no_gender">That\'s awesome that you identify as something else (perhaps a tri-gender pyro fox?) but this game only has settings for boys and girls :(</string>
+
+    <string name="first_time_task">Let\'s start by adding our first task. Click the button to the right! </string>
+
+    <string name="first_time_task_editor">Excellent! Here you can add activities you want to work on (Read, Run, Etc.) and then press the check mark to save them</string>
+
+    <string name="level_up_explanation">Completing tasks will grant gold and experience.  Build up enough experience and you\'ll grow levels and unlock new features. </string>
+
+    <string name="swipe_right">Now you\'re ready to begin your adventure towards a more productive life!  Swipe to explore more LifeUp fun</string>
+
+    <string name="first_battle">Welcome to the Battlefield.  Here you can fight different enemies on your adventure and gain rare loot!</string>
+
+    <string name="new_task_title">New Task</string>
+
+    <string name="new_reward_title">New Reward</string>
+
+    <!-- AdMob ad unit IDs -->
+    <string name="banner_home_footer">ca-app-pub-3940256099942544/6300978111</string>
+
+</resources>

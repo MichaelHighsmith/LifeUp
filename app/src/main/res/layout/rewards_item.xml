@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/task_pressed">
+
+
+        <TextView
+            android:id="@+id/reward_name_text_view"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            tools:text="Excercise"
+            android:typeface="serif"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="40dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"/>
+
+        <ImageView
+            android:id="@+id/gold_cost_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gold_coin"
+            android:layout_toLeftOf="@+id/reward_gold_cost"
+            android:layout_toStartOf="@+id/reward_gold_cost"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/reward_gold_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:paddingRight="48dp"
+            android:paddingEnd="48dp"
+            android:layout_centerVertical="true"
+            android:text="0"
+            android:typeface="serif"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_low"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_mid0"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_mid1"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_mid2"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_mid3"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_mid4"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_mid5"/>
+    <item
+        android:duration="3"
+        android:drawable="@drawable/dragon_full"/>
+
+</animation-list>

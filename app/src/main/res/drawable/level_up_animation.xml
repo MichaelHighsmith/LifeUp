@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/level_up_stars_one"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_two"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_three"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_four"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_five"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_six"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_seven"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_eight"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_nine"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_ten"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_eleven"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_twelve"
+        android:duration="30"/>
+    <item
+        android:drawable="@drawable/level_up_stars_thirteen"
+        android:duration="30"/>
+
+</animation-list>
