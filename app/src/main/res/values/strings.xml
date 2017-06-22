@@ -20,13 +20,13 @@
 
     <string name="first_time_task">Let\'s start by adding our first task. Click the plus button to the right! </string>
 
-    <string name="first_time_task_editor">Excellent! Here you can add activities you want to work on (Read, Run, Etc.) and then press the check mark to save them</string>
+    <string name="first_time_task_editor">Excellent! Here you can add activities you want to work on (Read, Run, Etc.) and then press the button below to save them.</string>
 
     <string name="level_up_explanation">Completing tasks will grant gold and experience.  Build up enough experience and you\'ll grow levels and unlock new features. </string>
 
     <string name="swipe_right">Now you\'re ready to begin your adventure towards a more productive life!  Swipe to explore more LifeUp fun</string>
 
-    <string name="first_battle">Welcome to the Battlefield.  Here you can fight different enemies on your adventure and gain rare loot!</string>
+    <string name="first_battle">Welcome to the Battlefield.  Here you can fight different enemies on your adventure and gain rare loot! Click on the enemies as they pop up to attack before they fight back!</string>
 
     <string name="new_task_title">New Task</string>
 

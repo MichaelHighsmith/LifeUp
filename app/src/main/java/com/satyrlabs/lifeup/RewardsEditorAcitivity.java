@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,29 +35,17 @@ public class RewardsEditorAcitivity extends AppCompatActivity {
         mRewardEditText = (EditText) findViewById(R.id.edit_reward_name);
         mRewardCostEditText = (EditText) findViewById(R.id.edit_reward_cost);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.task_editor_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case R.id.action_save:
+        Button addRewardButton = (Button) findViewById(R.id.add_reward_button);
+        addRewardButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
                 insertReward();
                 finish();
-                return true;
-            case R.id.action_delete:
-                return true;
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
+
     }
+
 
     private void insertReward(){
 

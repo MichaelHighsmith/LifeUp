@@ -84,5 +84,15 @@
         </LinearLayout>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/add_task_button"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:textSize="32dp"
+        android:text="Add Task"
+        android:textColor="@color/colorBlue"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/topgrad"/>
+
 
 </LinearLayout>

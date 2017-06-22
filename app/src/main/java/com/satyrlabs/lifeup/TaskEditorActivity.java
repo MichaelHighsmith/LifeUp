@@ -59,6 +59,15 @@ public class TaskEditorActivity extends AppCompatActivity {
         mDifficultySpinner = (Spinner) findViewById(R.id.spinner_difficulty);
         mFrequencySpinner = (Spinner) findViewById(R.id.spinner_frequency);
 
+        Button addTaskButton = (Button) findViewById(R.id.add_task_button);
+        addTaskButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                insertTask();
+                finish();
+            }
+        });
+
         setupDifficultySpinner();
         setupFrequencySpinner();
 
@@ -134,31 +143,6 @@ public class TaskEditorActivity extends AppCompatActivity {
                 mFrequency = FREQUENCY_PERIODICALLY;
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.task_editor_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.action_save:
-                //add the new task to the database
-                insertTask();
-                //exit activity
-                finish();
-                return true;
-            case R.id.action_delete:
-                return true;
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-
     }
 
     private void insertTask(){
