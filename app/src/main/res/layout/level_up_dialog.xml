@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Groovy!"
+        android:background="@drawable/topgrad"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         />
