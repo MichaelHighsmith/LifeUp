@@ -131,37 +131,37 @@ public class BattleActivity extends AppCompatActivity {
                 weaponDamage = 5.0f;
                 break;
             case(49):
-                weaponDamage = 11.0f;
+                weaponDamage = 7.0f;
                 break;
             case(50):
-                weaponDamage = 18.0f;
+                weaponDamage = 11.0f;
                 break;
             case(51):
-                weaponDamage = 24.0f;
+                weaponDamage = 16.0f;
                 break;
             case(52):
-                weaponDamage = 30.0f;
+                weaponDamage = 18.0f;
                 break;
             case(53):
-                weaponDamage = 51.0f;
+                weaponDamage = 21.0f;
                 break;
             case(54):
-                weaponDamage = 62.0f;
+                weaponDamage = 25.0f;
                 break;
             case(55):
-                weaponDamage = 82.0f;
+                weaponDamage = 40.0f;
                 break;
             case(56):
-                weaponDamage = 145.0f;
+                weaponDamage = 57.0f;
                 break;
             case(57):
-                weaponDamage = 222.0f;
+                weaponDamage = 71.0f;
                 break;
             case(58):
-                weaponDamage = 260.0f;
+                weaponDamage = 133.0f;
                 break;
             case(59):
-                weaponDamage = 400.0f;
+                weaponDamage = 226.0f;
                 break;
 
         }
@@ -688,8 +688,8 @@ public class BattleActivity extends AppCompatActivity {
         if (sharedPrefEnemy.equals("ice_dragon")){
             enemy_image.setImageResource(R.drawable.dragon_full);
             enemyDamage = 125.0f;
-            enemyHealth = 5000.0f;
-            maxEnemyHealth = 5000.0f;
+            enemyHealth = 7500.0f;
+            maxEnemyHealth = 7500.0f;
             enemyName = "Ice Dragon";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 7;
@@ -704,104 +704,104 @@ public class BattleActivity extends AppCompatActivity {
         } else if (sharedPrefEnemy.equals("octopus")){
             enemy_image.setImageResource(R.drawable.octopus);
             enemyDamage = 20.0f;
-            enemyHealth = 75.0f;
-            maxEnemyHealth = 75.0f;
+            enemyHealth = 150f;
+            maxEnemyHealth = 150.0f;
             enemyName = "Octopus";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 2;
         } else if (sharedPrefEnemy.equals("slime_monster")){
             enemy_image.setImageResource(R.drawable.slime_monster);
             enemyDamage = 10.0f;
-            enemyHealth = 30.0f;
-            maxEnemyHealth = 30.0f;
+            enemyHealth = 50.0f;
+            maxEnemyHealth = 50.0f;
             enemyName = "Toxic Waste";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 1;
         } else if (sharedPrefEnemy.equals("spider")){
             enemy_image.setImageResource(R.drawable.spider);
             enemyDamage = 15.0f;
-            enemyHealth = 50.0f;
-            maxEnemyHealth = 50.0f;
+            enemyHealth = 100.0f;
+            maxEnemyHealth = 100.0f;
             enemyName = "Spider";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 1;
         } else if (sharedPrefEnemy.equals("snake")){
             enemy_image.setImageResource(R.drawable.snake);
             enemyDamage = 45.0f;
-            enemyHealth = 70.0f;
-            maxEnemyHealth = 70.0f;
+            enemyHealth = 350.0f;
+            maxEnemyHealth = 350.0f;
             enemyName = "Snake";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 2;
         } else if (sharedPrefEnemy.equals("wolf")){
             enemy_image.setImageResource(R.drawable.wolf);
             enemyDamage = 25.0f;
-            enemyHealth = 100.0f;
-            maxEnemyHealth = 100.0f;
+            enemyHealth = 200.0f;
+            maxEnemyHealth = 200.0f;
             enemyName = "Wolf";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 2;
         } else if (sharedPrefEnemy.equals("ghost")){
             enemy_image.setImageResource(R.drawable.ghost);
             enemyDamage = 35.0f;
-            enemyHealth = 200.0f;
-            maxEnemyHealth = 200.0f;
+            enemyHealth = 600.0f;
+            maxEnemyHealth = 600.0f;
             enemyName = "Ghost";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 3;
         } else if (sharedPrefEnemy.equals("triclops")){
             enemy_image.setImageResource(R.drawable.triclops);
             enemyDamage = 100.0f;
-            enemyHealth = 3000.0f;
-            maxEnemyHealth = 3000.0f;
+            enemyHealth = 5000.0f;
+            maxEnemyHealth = 5000.0f;
             enemyName = "Triclops";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 6;
         } else if (sharedPrefEnemy.equals("fire_dragon")){
             enemy_image.setImageResource(R.drawable.fire_dragon);
             enemyDamage = 60.0f;
-            enemyHealth = 500.0f;
-            maxEnemyHealth = 500.0f;
+            enemyHealth = 1000.0f;
+            maxEnemyHealth = 1000.0f;
             enemyName = "Fire Dragon";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 5;
         } else if (sharedPrefEnemy.equals("crab")){
             enemy_image.setImageResource(R.drawable.crab);
             enemyDamage = 35.0f;
-            enemyHealth = 150.0f;
-            maxEnemyHealth = 150.0f;
+            enemyHealth = 450.0f;
+            maxEnemyHealth = 450.0f;
             enemyName = "Sea Crab";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 3;
         } else if (sharedPrefEnemy.equals("grim_reaper")){
             enemy_image.setImageResource(R.drawable.grim_reaper);
             enemyDamage = 75.0f;
-            enemyHealth = 1000.0f;
-            maxEnemyHealth = 1000.0f;
+            enemyHealth = 2000.0f;
+            maxEnemyHealth = 2000.0f;
             enemyName = "Grim Reaper";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 5;
         } else if (sharedPrefEnemy.equals("slime_monster_multiple")){
             enemy_image.setImageResource(R.drawable.slime_monster_multiple);
             enemyDamage = 30.0f;
-            enemyHealth = 1500.0f;
-            maxEnemyHealth = 1500.0f;
+            enemyHealth = 3500.0f;
+            maxEnemyHealth = 3500.0f;
             enemyName = "Toxic Sludge";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 6;
         } else if (sharedPrefEnemy.equals("girl_enemy")){
             enemy_image.setImageResource(R.drawable.girl_enemy);
             enemyDamage = 40.0f;
-            enemyHealth = 600.0f;
-            maxEnemyHealth = 600.0f;
+            enemyHealth = 750.0f;
+            maxEnemyHealth = 750.0f;
             enemyName = "Evil Clone";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 5;
         } else if (sharedPrefEnemy.equals("boy_enemy")){
             enemy_image.setImageResource(R.drawable.boy_enemy);
             enemyDamage = 50.0f;
-            enemyHealth = 300.0f;
-            maxEnemyHealth = 300.0f;
+            enemyHealth = 750.0f;
+            maxEnemyHealth = 750.0f;
             enemyName = "Evil Clone";
             tv_enemy.setText(enemyName + ": " + enemyHealth);
             diamondsFromEnemy = 3;
