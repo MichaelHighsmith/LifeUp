@@ -16,7 +16,7 @@
         android:id="@+id/intro_task_editor_ok_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok"
+        android:text="@string/ok"
         android:background="@drawable/topgrad"
         android:layout_gravity="center"/>
 

@@ -10,7 +10,7 @@
         android:padding="16dp">
 
         <TextView
-            android:text="Reward:"
+            android:text="@string/reward_text"
             style="@style/CategoryStyle"/>
 
         <LinearLayout
@@ -22,7 +22,7 @@
 
             <EditText
                 android:id="@+id/edit_reward_name"
-                android:hint="RewardName"
+                android:hint="@string/reward_hint"
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
 
@@ -39,7 +39,7 @@
         android:paddingTop="16dp">
 
         <TextView
-            android:text="Cost:"
+            android:text="@string/reward_cost_text"
             style="@style/CategoryStyle"/>
 
         <LinearLayout
@@ -51,7 +51,7 @@
 
             <EditText
                 android:id="@+id/edit_reward_cost"
-                android:hint="RewardCost"
+                android:hint="@string/reward_cost_hint"
                 android:inputType="number"
                 style="@style/EditorFieldStyle" />
 
@@ -62,8 +62,8 @@
         android:id="@+id/add_reward_button"
         android:layout_width="250dp"
         android:layout_height="100dp"
-        android:textSize="32dp"
-        android:text="Add Reward"
+        android:textSize="32sp"
+        android:text="@string/add_reward_text"
         android:textColor="@color/colorBlue"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/topgrad"/>

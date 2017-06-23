@@ -12,7 +12,7 @@
         android:typeface="serif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tasks"
+        android:text="@string/tasks"
         android:textAppearance="@style/Header"
         android:background="@drawable/scroll_header_background"
         android:gravity="center"

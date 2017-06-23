@@ -11,7 +11,7 @@
         android:padding="16dp">
 
         <TextView
-            android:text="New Task:"
+            android:text="@string/task_text"
             style="@style/CategoryStyle"/>
 
         <LinearLayout
@@ -23,7 +23,7 @@
 
             <EditText
                 android:id="@+id/edit_task_name"
-                android:hint="Task (Read, Run, etc.)"
+                android:hint="@string/task_hint"
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
 
@@ -37,7 +37,7 @@
         android:padding="16dp">
 
         <TextView
-            android:text="Difficulty"
+            android:text="@string/difficulty_text"
             style="@style/CategoryStyle" />
 
         <!-- Input field -->
@@ -64,7 +64,7 @@
         android:padding="16dp">
 
         <TextView
-            android:text="Frequency"
+            android:text="@string/frequency_text"
             style="@style/CategoryStyle" />
 
         <!-- Input field -->
@@ -88,8 +88,8 @@
         android:id="@+id/add_task_button"
         android:layout_width="200dp"
         android:layout_height="100dp"
-        android:textSize="32dp"
-        android:text="Add Task"
+        android:textSize="32sp"
+        android:text="@string/add_task_text"
         android:textColor="@color/colorBlue"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/topgrad"/>

@@ -9,7 +9,7 @@
         android:id="@+id/rewards_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rewards"
+        android:text="@string/rewards"
         android:background="@drawable/scroll_header_background"
         android:textAppearance="@style/Header"
         android:gravity="center"

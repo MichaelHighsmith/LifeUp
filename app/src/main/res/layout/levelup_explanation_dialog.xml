@@ -21,6 +21,6 @@
         android:layout_gravity="center"
         android:padding="8dp"
         android:background="@drawable/topgrad"
-        android:text="Radical!"/>
+        android:text="@string/radical"/>
 
 </LinearLayout>

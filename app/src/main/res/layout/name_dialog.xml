@@ -9,14 +9,14 @@
         android:id="@+id/name_selection_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Player Name"
+        android:hint="@string/player_name_text"
         android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/name_selection_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Let's go!"
+        android:text="@string/lets_go"
         android:background="@drawable/topgrad"
         android:layout_gravity="center"/>
 

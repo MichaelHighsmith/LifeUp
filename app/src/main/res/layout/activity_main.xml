@@ -20,7 +20,7 @@
             android:id="@+id/health_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Health:"
+            android:text="@string/player_health_text"
             android:textAppearance="@style/CodeFont"
             android:layout_toRightOf="@+id/character_relative_layout"
             android:layout_toEndOf="@+id/character_relative_layout"
@@ -119,12 +119,12 @@
             />
 
         <TextView
-            android:text="Player Name"
+            android:text="@string/player_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/player_name"
             android:textAppearance="@style/CodeFont"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/character_relative_layout"
@@ -231,7 +231,7 @@
             android:layout_toEndOf="@+id/experience_text" />
 
         <TextView
-            android:text="Experience:"
+            android:text="@string/player_experience_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/experience_text"

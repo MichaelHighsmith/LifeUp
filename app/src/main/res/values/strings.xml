@@ -35,4 +35,39 @@
     <!-- AdMob ad unit IDs -->
     <string name="banner_home_footer">ca-app-pub-3940256099942544/6300978111</string>
 
+    <string name="player_health_text">Health: </string>
+    <string name="player_name_text">Player Name</string>
+    <string name="player_experience_text">Experience: </string>
+    <string name="ok">OK</string>
+    <string name="okay">Okay</string>
+
+    <string name="enemy_health_dummy">Enemy Health: </string>
+
+    <string name="tasks">Tasks</string>
+    <string name="adventure">Adventure</string>
+    <string name="rewards">Rewards</string>
+
+    <string name="welcome_string">Welcome To LifeUp!</string>
+    <string name="boy">Boy</string>
+    <string name="girl">Girl</string>
+
+    <string name="level_up_text">You Leveled Up!</string>
+    <string name="groovy">Groovy!</string>
+    <string name="radical">Radical!</string>
+    <string name="lets_go">Let\'s go!</string>
+
+    <string name="store">Store</string>
+
+    <string name="reward_text">Reward:</string>
+    <string name="reward_hint">Reward Activity</string>
+    <string name="reward_cost_text">Cost:</string>
+    <string name="reward_cost_hint">Gold Cost</string>
+    <string name="add_reward_text">Add Reward</string>
+
+    <string name="task_text">New Task:</string>
+    <string name="task_hint">Task(Read, Run, etc.)</string>
+    <string name="difficulty_text">Difficulty:</string>
+    <string name="frequency_text">Frequency:</string>
+    <string name="add_task_text">Add Task</string>
+
 </resources>
