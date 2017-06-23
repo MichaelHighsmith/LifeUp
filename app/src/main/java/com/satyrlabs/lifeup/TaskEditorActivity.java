@@ -154,10 +154,6 @@ public class TaskEditorActivity extends AppCompatActivity {
             return;
         }
 
-        //Create an instance of the Helper class
-        //TaskDbHelper mDbHelper = new TaskDbHelper(this);
-
-        //SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //Create a ContentValues object where column names are the keys, and task attributes are the values
         ContentValues values = new ContentValues();
@@ -173,13 +169,6 @@ public class TaskEditorActivity extends AppCompatActivity {
             Toast.makeText(this, "Task successfully added!", Toast.LENGTH_SHORT).show();
         }
 
-//        long newRowId = db.insert(TABLE_NAME, null, values);
-//
-//        if(newRowId == -1){
-//            Toast.makeText(this, "Error with saving task", Toast.LENGTH_SHORT).show();
-//        } else{
-//            Toast.makeText(this, "Task saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
-//        }
     }
 
     //Dialog box explaining the task editor on the first time around

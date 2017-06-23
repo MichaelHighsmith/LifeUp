@@ -80,8 +80,6 @@ public class ThirdFragment extends Fragment {
                 }
             });
         }
-        //TextView tv = (TextView) v.findViewById(R.id.tvFragThird);
-        //tv.setText(getArguments().getString("msg"));
 
         return v;
     }

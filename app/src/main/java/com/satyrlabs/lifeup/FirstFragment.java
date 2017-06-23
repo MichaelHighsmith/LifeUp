@@ -62,29 +62,6 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.first_frag, container, false);
 
-        //TextView tv = (TextView) v.findViewById(R.id.tvFragFirst);
-        //tv.setText(getArguments().getString("msg"));
-
-        //ArrayList<Word> words = new ArrayList<Word>();
-
-        //words.add(new Word("8 Hours of Sleep", "+5"));
-        //words.add(new Word("Eat Healthy", "+4"));
-        //words.add(new Word("Excercise", "+5"));
-        //words.add(new Word("Read (30+)", "+4"));
-        //words.add(new Word("Shower", "+3"));
-        //words.add(new Word("Study", "+4"));
-        //words.add(new Word("Swim", "+6"));
-        //words.add(new Word("Meditate", "+5"));
-        //words.add(new Word("Clean", "+3"));
-        //words.add(new Word("Music", "+4"));
-        //words.add(new Word("Play Tennis", "+3"));
-
-
-        //create an arrayadapter/listview
-        //WordAdapter adapter = new WordAdapter(getActivity().getApplicationContext(), words);
-        //ListView listView = (ListView)v.findViewById(R.id.list);
-        //listView.setAdapter(adapter);
-
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -151,11 +128,6 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
         return v;
     }
 
-    /*@Override
-    public void onStart(){
-        super.onStart();
-        displayDatabaseInfo();
-    }*/
 
     public static FirstFragment newInstance(String text){
 
@@ -168,72 +140,6 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
         return f;
     }
 
-    /*private void displayDatabaseInfo(){
-        //To access the database we instantiate our subclass of the SQLliteOpenhelper and pass the context of this fragment
-        //TaskDbHelper mDbHelper = new TaskDbHelper(getContext());
-        //Create and/or open a database to read from
-        //SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        //Perform a raw SQL query to get a cursor that contains all rows from the tasks table
-        String[] projection = {
-                _ID,
-                COLUMN_TASK_NAME,
-                COLUMN_TASK_DIFFICULTY,
-                COLUMN_TASK_FREQUENCY
-        };*/
-
-    /**Cursor cursor = db.query(
-     TABLE_NAME,
-     projection,  //projection allows us to pick what columns we are interested in
-     null,  //selection and selectionArgs help us pick what rows we are interested in
-     null,
-     null,
-     null,
-     null);
-     */
-
-    //COMMENTED OUT WHEN WE SWITCH FROM THIS ADAPTER TO THE CURSORLOADER
-       /* //perform a query on the provider using the ContentResolver
-        Cursor cursor = getActivity().getApplicationContext().getContentResolver().query(CONTENT_URI, projection, null, null, null);  //the getActivity.getApplicationContext is required since we are working with fragments that cant extend appcompatactivity
-
-        //Find the ListView that will be populated with tasks
-        ListView taskListView = (ListView) v.findViewById(R.id.list);
-
-        //Setup an adapter to create a list
-        TaskCursorAdapter adapter = new TaskCursorAdapter(getActivity().getApplicationContext(), cursor);
-
-        //Attach the adapter to the listview
-        taskListView.setAdapter(adapter);*/
-
-
-    //TextView displayView = (TextView) v.findViewById(R.id.text_view_task);  //in first_frag (removed because we are switching to listview format
-
-    //Display the number of rows in the cursor (reflects the nubmer of rows in the tasks table in the database
-        /*try {
-            displayView.setText("The tasks table contains " + cursor.getCount() + " tasks.\n\n");
-
-            //Gives a header above the loop below for the textview
-            displayView.append(_ID + " - " + COLUMN_TASK_NAME + " - " + COLUMN_TASK_DIFFICULTY + " - " + COLUMN_TASK_FREQUENCY + "\n" );
-
-            //Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(_ID);
-            int nameColumnIndex = cursor.getColumnIndex(COLUMN_TASK_NAME);
-            int difficultyColumnIndex = cursor.getColumnIndex(COLUMN_TASK_DIFFICULTY);
-            int frequencyColumnIndex = cursor.getColumnIndex(COLUMN_TASK_FREQUENCY);
-
-            //Iterate through each returned row in the cursor
-            while (cursor.moveToNext()){ //returns true each time it successfully moves to a next row
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                String currentDifficulty = cursor.getString(difficultyColumnIndex);
-                String currentFrequency = cursor.getString(frequencyColumnIndex);
-                displayView.append("\n" + currentID + " - " + currentName + " - " + currentDifficulty + " - " + currentFrequency);
-            }
-
-        } finally {
-            cursor.close();
-        }*/  //THIS OLD TRY CATCH WAS REMOVED BECASUE WE SWITCHED TO THE LISTVIEW FORMAT
-
-    //}
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
