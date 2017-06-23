@@ -20,15 +20,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".TaskEditorActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
 
         </activity>
         <activity android:name=".RewardsEditorAcitivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
 
         </activity>
         <activity android:name=".BattleActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
 
         </activity>
         <activity android:name="com.google.android.gms.ads.AdActivity"
