@@ -4,25 +4,25 @@
 
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/blank"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/snake_mid0"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/snake_mid1"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/snake_mid2"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/snake_mid3"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/snake_mid4"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/snake"/>
+        android:drawable="@drawable/snake_mid5"/>
     <item
         android:duration="3"
         android:drawable="@drawable/snake"/>

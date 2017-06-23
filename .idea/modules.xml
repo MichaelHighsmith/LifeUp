@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LifeUp.iml" filepath="$PROJECT_DIR$/LifeUp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LifeUp_SatyrLabs.iml" filepath="$PROJECT_DIR$/LifeUp_SatyrLabs.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -4,25 +4,25 @@
 
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/blank"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/boy_enemy_mid0"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/boy_enemy_mid1"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/boy_enemy_mid2"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/boy_enemy_mid3"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/boy_enemy_mid4"/>
     <item
         android:duration="3"
-        android:drawable="@drawable/boy_enemy"/>
+        android:drawable="@drawable/boy_enemy_mid5"/>
     <item
         android:duration="3"
         android:drawable="@drawable/boy_enemy"/>
