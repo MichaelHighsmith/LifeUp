@@ -222,12 +222,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/experience_text"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:id="@+id/experience_int"
             android:textAppearance="@style/CodeFont"
             android:layout_toRightOf="@+id/experience_text"
             android:layout_toEndOf="@+id/experience_text" />
+
+        <TextView
+            android:id="@+id/experience_int_slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:textAppearance="@style/CodeFont"
+            android:layout_toRightOf="@+id/experience_int"
+            android:layout_toEndOf="@+id/experience_int"
+            android:paddingLeft="8dp"
+            android:layout_alignBottom="@+id/experience_int"
+            />
+
+        <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/experience_text"
+            android:id="@+id/experience_max_int"
+            android:textAppearance="@style/CodeFont"
+            android:paddingLeft="8dp"
+            android:layout_toRightOf="@+id/experience_int_slash"
+            android:layout_toEndOf="@+id/experience_int_slash" />
 
         <TextView
             android:text="@string/player_experience_text"
