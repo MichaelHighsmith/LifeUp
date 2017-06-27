@@ -37,7 +37,7 @@ import com.satyrlabs.lifeup.data.TaskDbHelper;
 
 import java.util.Random;
 
-public class MainActivity extends FragmentActivity implements FirstFragment.OnHeadlineSelectedListener, ThirdFragment.OnHeadlinesSelectedListener, FourthFragment.OnRewardSelectedListener{
+public class MainActivity extends FragmentActivity implements FirstFragment.OnHeadlineSelectedListener, ThirdFragment.OnHeadlinesSelectedListener, FourthFragment.OnRewardSelectedListener, FifthFragment.OnHealthRestoreListener{
 
     //int experience;
     //MyPageAdapter pageAdapter;
@@ -306,12 +306,29 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
 
         Toast.makeText(this, "Gained " + gold + " gold and " + experience + " experience!", Toast.LENGTH_SHORT).show();
 
+        currentHealth = sharedPref.getFloat("health", 50.0f);
+        maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
+
+        //if health is less that max, heal the user
+        if(currentHealth + 10.0f < maxHealth){
+            currentHealth += 10.0f;
+        } else if (currentHealth < maxHealth){
+            currentHealth = maxHealth;
+        }
+
+
         //Store the new gold and experience
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("experience", currentExperience);
         editor.apply();
         editor.putInt("gold", currentGold);
         editor.apply();
+        editor.putFloat("health", currentHealth);
+        editor.apply();
+
+        current_health.setText(String.valueOf(currentHealthInt));
+        max_health.setText(String.valueOf(currentMaxHealthInt));
+        getHealthBar();
 
         //Set the textviews to display udpated experience and gold
         experience_int.setText(String.valueOf(currentExperience));
@@ -368,8 +385,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
             if(currentHealth >= 5.0f){
                 currentHealth = currentHealth - 5.0f;
             }
-            Log.v(characterSelection, "Current health is " + currentHealth);
-            Log.v(characterSelection, "Max health is " + maxHealth);
         }
 
 
@@ -390,6 +405,30 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         current_health.setText(String.valueOf(currentHealthInt));
         max_health.setText(String.valueOf(currentMaxHealthInt));
         getHealthBar();
+
+    }
+
+    public void onHealthRestoreButtonClicked(){
+        SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
+        currentHealth = sharedPref.getFloat("health", 50.0f);
+        maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
+        currentGold = sharedPref.getInt("gold", 0);
+        if(currentHealth < maxHealth){
+            currentHealth = maxHealth;
+            currentGold = currentGold - 20;
+        }
+        SharedPreferences.Editor goldEditor = sharedPref.edit();
+        goldEditor.putInt("gold", currentGold);
+        goldEditor.apply();
+        goldEditor.putFloat("health", currentHealth);
+        goldEditor.apply();
+
+        //update the image/textviews for the values after healing
+        current_health.setText(String.valueOf(currentHealthInt));
+        max_health.setText(String.valueOf(currentMaxHealthInt));
+        gold_int.setText(String.valueOf(currentGold));
+        getHealthBar();
+
 
     }
 
@@ -494,8 +533,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         healthEditor.apply();
         currentHealthInt = Math.round(currentHealth);
         currentMaxHealthInt = Math.round(maxHealth);
-        Log.v(characterSelection, "current Health Int is" + currentHealthInt);
-        Log.v(characterSelection, "max Health Int is" + currentMaxHealthInt);
         current_health.setText(String.valueOf(currentHealthInt));
         max_health.setText(String.valueOf(currentMaxHealthInt));
         getHealthBar();
@@ -585,7 +622,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 button.setVisibility(View.VISIBLE);
                 //set the initial character selection variable that is used to create the outfit gridview
                 characterSelection = "boy";
-                Log.v(characterSelection, "Character set to boy");
             }
         });
         //sets the initial characteristics to girl
@@ -600,7 +636,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 button.setVisibility(View.VISIBLE);
                 //set the initial character selection variable that is used to create the outfit gridview
                 characterSelection = "girl";
-                Log.v(characterSelection, "Character set to girl");
             }
         });
         dialog.show();
@@ -835,7 +870,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 if (requiresGold){
                     //Unlock items/tell the user if you cant unlock them yet
                     if (shirtLocked.getBoolean(shirtName, true) && currentGold >= goldUnlockRequirement){
-                        Log.v(shirtName, "is no longer locked");
                         shirt.setImageResource(shirtDrawables[position]);
                         currentShirt = position;
                         shirtLocked.edit().putBoolean(shirtName, false).apply();
@@ -844,7 +878,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                     } else if (shirtLocked.getBoolean(shirtName, true) && currentGold < goldUnlockRequirement){
                         Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + "gold to purchase this item", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.v(shirtName, "has been selected");
                         shirt.setImageResource(shirtDrawables[position]);
                         currentShirt = position;
                         currentShirtBonus = currentShirtBonusUnlocked;
@@ -1007,8 +1040,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         //apply the new item's bonus health
         maxHealth = maxHealth + currentShirtBonus;
 
-        Log.v(characterSelection, "Max health is " + maxHealth);
-
         SharedPreferences shirtHealth = getSharedPreferences("myPref", 0);
         SharedPreferences.Editor bonus_health_editor = shirtHealth.edit();
         bonus_health_editor.putFloat("shirtHealth", currentShirtBonus);
@@ -1017,7 +1048,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         bonus_health_editor.apply();
 
         currentMaxHealthInt = Math.round(maxHealth);
-        Log.v(characterSelection, "max Health Int is" + currentMaxHealthInt);
         max_health.setText(String.valueOf(currentMaxHealthInt));
 
         getHealthBar();
@@ -1136,7 +1166,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 //Unlock items/tell the user if you cant unlock them yet
                 if (hatLocked.getBoolean(hatName, true) && currentGold >= goldUnlockRequirement){
                     hat.setImageResource(hatDrawables[position]);
-                    Log.v(hatName, "is no longer locked");
                     currentHat = position;
                     hatLocked.edit().putBoolean(hatName, false).apply();
                     currentHatBonus = currentHatBonusUnlocked;
@@ -1145,7 +1174,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                     Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
                 } else {
                     hat.setImageResource(hatDrawables[position]);
-                    Log.v(hatName, "has been selected");
                     currentHat = position;
                     currentHatBonus = currentHatBonusUnlocked;
                 }
@@ -1182,7 +1210,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         bonus_health_editor.apply();
 
         currentMaxHealthInt = Math.round(maxHealth);
-        Log.v(characterSelection, "max Health Int is" + currentMaxHealthInt);
         max_health.setText(String.valueOf(currentMaxHealthInt));
 
         getHealthBar();
@@ -1302,7 +1329,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 //Unlock items/tell the user if you cant unlock them yet
                 if (weaponLocked.getBoolean(weaponName, true) && currentGold >= goldUnlockRequirement){
                     weapon.setImageResource(weaponDrawables[position]);
-                    Log.v(weaponName, "is no longer locked");
                     currentWeapon = position;
                     weaponLocked.edit().putBoolean(weaponName, false).apply();
                     currentGold = currentGold - goldUnlockRequirement;
@@ -1310,7 +1336,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                     Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
                 } else {
                     weapon.setImageResource(weaponDrawables[position]);
-                    Log.v(weaponName, "has been selected");
                     currentWeapon = position;
                 }
             } else {
@@ -1430,7 +1455,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 //Unlock items/tell the user if you cant unlock them yet
                 if (shieldLocked.getBoolean(shieldName, true) && currentGold >= goldUnlockRequirement){
                     shield.setImageResource(shieldDrawables[position]);
-                    Log.v(shieldName, "is no longer locked");
                     currentShield = position;
                     shieldLocked.edit().putBoolean(shieldName, false).apply();
                     currentGold = currentGold - goldUnlockRequirement;
@@ -1438,7 +1462,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                     Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
                 } else {
                     shield.setImageResource(shieldDrawables[position]);
-                    Log.v(shieldName, "has been selected");
                     currentShield = position;
                 }
             } else {

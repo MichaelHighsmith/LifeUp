@@ -1,5 +1,6 @@
 package com.satyrlabs.lifeup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 /**
@@ -14,6 +16,21 @@ import android.widget.ImageView;
  */
 
 public class FifthFragment extends Fragment {
+
+    OnHealthRestoreListener mHealthRestoreListener;
+
+    public interface OnHealthRestoreListener{
+        public void onHealthRestoreButtonClicked();
+    }
+
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try{
+            mHealthRestoreListener = (OnHealthRestoreListener) context;
+        } catch(ClassCastException e){
+            throw new ClassCastException(context.toString() + " must implement OnHealthResoreListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -256,6 +273,15 @@ public class FifthFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), BattleActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Button getMoreHealthButton = (Button) v.findViewById(R.id.more_health_button);
+        getMoreHealthButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                mHealthRestoreListener.onHealthRestoreButtonClicked();
+
             }
         });
 

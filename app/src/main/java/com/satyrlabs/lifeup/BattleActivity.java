@@ -31,7 +31,7 @@ public class BattleActivity extends AppCompatActivity {
 
     ImageView health_bar, enemy_health_bar;
 
-    ImageView enemy_image;
+    ImageView enemy_image, player_image;
 
     TextView tv_health, tv_enemy;
 
@@ -61,6 +61,16 @@ public class BattleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.battle_layout);
 
+        player_image = (ImageView) findViewById(R.id.player_battle);
+
+        SharedPreferences currentGender = getSharedPreferences("currentGender", 0);
+        if(currentGender.getString("gender", "").equals("boy")){
+            player_image.setImageResource(R.drawable.boy_start);
+        }
+        else if(currentGender.getString("gender", "").equals("girl")){
+            player_image.setImageResource(R.drawable.girl_start);
+        }
+
         tv_health = (TextView) findViewById(R.id.tv_health);
         tv_enemy = (TextView) findViewById(R.id.tv_enemy);
 
@@ -68,7 +78,6 @@ public class BattleActivity extends AppCompatActivity {
         //Retrieve the info regarding which enemy was selected
         SharedPreferences enemyPref = getSharedPreferences("enemy", 0);
         sharedPrefEnemy = enemyPref.getString("currentEnemy", "");
-        Log.v(sharedPrefEnemy, "current enemy is this");
 
         //Set the images accordingly
         setEnemyDetails();

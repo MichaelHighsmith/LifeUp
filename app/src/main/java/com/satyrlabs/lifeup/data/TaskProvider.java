@@ -21,8 +21,6 @@ import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry._ID;
 
 public class TaskProvider extends ContentProvider {
 
-    public static final String LOG_TAG = TaskProvider.class.getSimpleName();
-
     private static final int TASKS = 100;
     private static final int TASK_ID = 101;
     private static final int REWARDS = 200;
@@ -124,7 +122,6 @@ public class TaskProvider extends ContentProvider {
 
         //test if the insertion failed
         if(id == -1){
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
 
@@ -141,7 +138,6 @@ public class TaskProvider extends ContentProvider {
         long id = rewardsDatabase.insert(RewardsContract.RewardsEntry.TABLE_NAME, null, values);
 
         if(id == -1){
-            Log.e(LOG_TAG, "Failed to insert row for" + uri);
             return null;
         }
 

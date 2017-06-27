@@ -33,7 +33,7 @@
     <string name="new_reward_title">New Reward</string>
 
     <!-- AdMob ad unit IDs -->
-    <string name="banner_home_footer">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_home_footer">ca-app-pub-4519081494904149/5206804515 </string>
 
     <string name="player_health_text">Health: </string>
     <string name="player_name_text">Player Name</string>
@@ -69,5 +69,7 @@
     <string name="difficulty_text">Difficulty:</string>
     <string name="frequency_text">Frequency:</string>
     <string name="add_task_text">Add Task</string>
+
+    <string name="get_more_health">Get More Health (20 gold)</string>
 
 </resources>

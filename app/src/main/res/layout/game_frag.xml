@@ -17,7 +17,9 @@
         android:layout_centerHorizontal="true"/>
 
 
+
     <ScrollView
+        android:id="@+id/battle_scroll_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/adventure_header"
@@ -185,11 +187,21 @@
                     android:layout_weight="1"
                     android:background="@drawable/scroll_background_vertical"/>
 
-
-
             </LinearLayout>
+
+            <Button
+                android:id="@+id/more_health_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_more_health"
+                android:background="@drawable/topgrad"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+
 
         </LinearLayout>
     </ScrollView>
+
 
 </RelativeLayout>
