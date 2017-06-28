@@ -21,6 +21,7 @@
     <string name="first_time_task">Let\'s start by adding our first task. Click the plus button to the right! </string>
 
     <string name="first_time_task_editor">Excellent! Here you can add activities you want to work on (Read, Run, Etc.) and then press the button below to save them.</string>
+    <string name="first_time_reward_editor">Completing tasks makes you a more productive person, but everyone needs a break now and then!  Here you can make reward activities and charge yourself whatever amount of gold you think they should cost</string>
 
     <string name="level_up_explanation">Completing tasks will grant gold and experience.  Build up enough experience and you\'ll grow levels and unlock new features. </string>
 
@@ -58,8 +59,8 @@
 
     <string name="store">Store</string>
 
-    <string name="reward_text">Reward:</string>
-    <string name="reward_hint">Reward Activity</string>
+    <string name="reward_text">New Reward:</string>
+    <string name="reward_hint">Junk Food, T.V., etc.</string>
     <string name="reward_cost_text">Cost:</string>
     <string name="reward_cost_hint">Gold Cost</string>
     <string name="add_reward_text">Add Reward</string>

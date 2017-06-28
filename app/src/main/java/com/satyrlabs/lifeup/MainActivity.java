@@ -417,9 +417,11 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         currentHealth = sharedPref.getFloat("health", 50.0f);
         maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
         currentGold = sharedPref.getInt("gold", 0);
-        if(currentHealth < maxHealth){
+        if(currentHealth < maxHealth && currentGold >= 20){
             currentHealth = maxHealth;
             currentGold = currentGold - 20;
+        } else if(currentHealth < maxHealth){
+            Toast.makeText(this, "Sorry, you need more gold.  Complete some tasks!", Toast.LENGTH_SHORT).show();
         } else{
             Toast.makeText(this, "You're already on full health!", Toast.LENGTH_SHORT).show();
         }

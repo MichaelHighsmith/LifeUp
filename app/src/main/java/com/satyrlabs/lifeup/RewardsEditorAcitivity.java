@@ -1,14 +1,19 @@
 package com.satyrlabs.lifeup;
 
+import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,6 +29,8 @@ public class RewardsEditorAcitivity extends AppCompatActivity {
 
     private EditText mRewardEditText;
     private EditText mRewardCostEditText;
+
+    private static final String FIRST_REWARD = "MyFirstReward";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,6 +50,13 @@ public class RewardsEditorAcitivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //Check to see if it is the user's first time on this page.  If so then display the guidance dialogues
+        SharedPreferences settings = getSharedPreferences(FIRST_REWARD, 0);
+        if (settings.getBoolean("my_first_reward", true)){
+            firstRewardDialog();
+            settings.edit().putBoolean("my_first_reward", false).apply();
+        }
 
     }
 
@@ -74,6 +88,27 @@ public class RewardsEditorAcitivity extends AppCompatActivity {
             Toast.makeText(this, "Reward successfully added", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void firstRewardDialog(){
+        final Dialog dialog = new Dialog(RewardsEditorAcitivity.this);
+        dialog.setContentView(R.layout.intro_reward_editor_dialog);
+        dialog.setTitle("Make Your First Reward");
+        dialog.setCancelable(false);
+
+        final Button button = (Button) dialog.findViewById(R.id.intro_reward_editor_ok_button);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                dialog.dismiss();
+            }
+        });
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+
+        dialog.show();
     }
 
     @Override
