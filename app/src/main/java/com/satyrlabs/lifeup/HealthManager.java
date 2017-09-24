@@ -101,4 +101,15 @@ public class HealthManager extends AppCompatActivity {
         return currentGold;
     }
 
+    public float getMaxHealth(){
+        return maxHealth;
+    }
+
+    public float upMaxHealth(float maxHealth){
+        this.maxHealth = maxHealth + 5.0f;
+        this.currentHealth = this.maxHealth;
+        setViews(currentHealth, maxHealth);
+        return this.maxHealth;
+    }
+
 }

@@ -54,38 +54,16 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
     int currentExperience;
     int maxExperience;
     int currentLevel;
-    int gold;
     int currentGold;
-    int goldPrice;
     int currentDiamonds;
     int currentHealthInt;
     int currentMaxHealthInt;
 
     float currentHealth;
     float maxHealth;
-    float currentShirtBonus;
-    float currentHatBonus;
-    float currentLeggingBonus;
-
-    float currentShirtBonusUnlocked, currentHatBonusUnlocked, currentLeggingBonusUnlocked;
-
-    int currentHat;
-    int currentShirt;
-    int currentWeapon;
-    int currentShield;
-    int currentLegging;
 
     String characterSelection;
     String playerName;
-
-    String shirtName;
-    String hatName;
-    String shieldName;
-    String leggingName;
-    String weaponName;
-
-    int goldUnlockRequirement, diamondUnlockRequirement;
-    boolean requiresGold;
 
     ImageView character;
     ImageView shirt;
@@ -106,9 +84,9 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mAdView = (AdView) findViewById(R.id.adView);
-        //AdRequest adRequest = new AdRequest.Builder().build();
-        //mAdView.loadAd(adRequest);
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         //If it's the user's first time using the app, launch the intro dialog, if not then create the fragments.
         SharedPreferences settings = getSharedPreferences(FIRST_TIME, 0);
@@ -171,9 +149,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         if (currentHealthInt <= 0){
             currentHealthInt = 0;
         }
-        //current_health.setText(String.valueOf(currentHealthInt));
-        //max_health.setText(String.valueOf(currentMaxHealthInt));
-        //getHealthBar();
 
         //Initialize a new experience object (When this object is created it updates the textviews)
         expToLevel = new ExpToLevel(experience_int, experience_max_int, level_int, currentExperience);
@@ -182,7 +157,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         goldManager = new GoldManager(gold_int, currentGold);
 
         healthManager = new HealthManager(health_bar, current_health, max_health, currentHealth, maxHealth);
-
 
         //Add a textChangedListener to tell when the level changes.  If it changes, launch level up dialog
         level_int.addTextChangedListener(new TextWatcher() {
@@ -225,7 +199,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         SharedPreferences legging = getSharedPreferences("legging", 0);
         int selectedLegging = legging.getInt("currentLegging", 0);
         onLeggingSelected(selectedLegging);
-
     }
 
     @Override
@@ -309,12 +282,8 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         currentExperience = xpValues[0];
         maxExperience = xpValues[1];
 
-        //Toast.makeText(this, "Gained " + gold + " gold and " + experience + " experience!", Toast.LENGTH_SHORT).show();
-
-        currentHealth = sharedPref.getFloat("health", 50.0f);
-        maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
-
         currentHealth = healthManager.gainHealth();
+        healthManager.setViews(currentHealth, maxHealth);
 
         //Store the new gold and experience
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -394,7 +363,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
 
     }
 
-
     //Set up the fragments
     public class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm){
@@ -451,7 +419,7 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         dialog.show();
 
         SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        maxHealth = maxHealth + 5;
+        maxHealth = healthManager.upMaxHealth(maxHealth);
         currentHealth = maxHealth;
         SharedPreferences.Editor healthEditor = sharedPreferences.edit();
         healthEditor.putFloat("maxHealth", maxHealth);
@@ -626,885 +594,27 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
     //Called whenever a picture is clicked in the images fragment
     @Override
     public void onPictureSelected(int position){
-        //Get the health and subtract whatever item is currently equipped (will be added back in at the end of
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        currentShirtBonus = sharedPreferences.getFloat("shirtHealth", 0.0f);
-        maxHealth = sharedPreferences.getFloat("maxHealth", 50.0f);
-        maxHealth = maxHealth - currentShirtBonus;
-
-        SharedPreferences shirtLocked = getSharedPreferences("shirtLocked", 0);
-
-        //drawables for boy
-        int[] shirtDrawables = new int[] {
-                R.drawable.boy_black_shirt, R.drawable.boy_red_shirt, R.drawable.boy_blue_shirt, R.drawable.boy_green_shirt,
-                R.drawable.boy_purple_shirt, R.drawable.boy_orange_shirt, R.drawable.boy_grey_black_striped_shirt, R.drawable.boy_leather_armor,
-                R.drawable.boy_green_leather_armor, R.drawable.steel_armor, R.drawable.gold_armor, R.drawable.platinum_armor,
-                R.drawable.diamond_armor, R.drawable.samurai_armor, R.drawable.rainbow_armor, R.drawable.blank, R.drawable.hat_wizard_transparent,
-                R.drawable.hat_knight_helmet, R.drawable.hat_viking, R.drawable.hat_knight_full, R.drawable.hat_wizard_orange_transparent,
-                R.drawable.hat_knight_full_gold, R.drawable.hat_knight_full_platinum, R.drawable.hat_knight_full_diamond, R.drawable.hat_wizard_black_transparent,
-                R.drawable.hat_knight_full_samurai, R.drawable.blank
-        };
-
-        //drawables for girl
-        int[] girlShirtDrawables = new int[] {
-                R.drawable.black_tank, R.drawable.red_tank, R.drawable.blue_tank, R.drawable.green_tankkkk, R.drawable.purple_tank,
-                R.drawable.orange_tank, R.drawable.tank_grey_black_striped, R.drawable.girl_leather_armor, R.drawable.girl_green_leather_armor,
-                R.drawable.steel_armor, R.drawable.gold_armor, R.drawable.platinum_armor, R.drawable.diamond_armor, R.drawable.samurai_armor, R.drawable.rainbow_armor
-        };
-
-        //Two large switch statements depending on which gender is selected.  These determine how the character image is altared
-        SharedPreferences currentGender = getSharedPreferences("currentGender", 0);
-        if (currentGender.getString("gender", "").equals("boy")){
-            switch (position){
-                case(0):
-                    shirtName = "boy_black_shirt";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(1):
-                    shirtName = "boy_red_shirt";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(2):
-                    shirtName = "boy_blue_shirt";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(3):
-                    shirtName = "boy_green_shirt";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(4):
-                    shirtName = "boy_purple_shirt";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(5):
-                    shirtName = "boy_orange_shirt";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(6):
-                    shirtName = "boy_grey_black_striped_shirt";
-                    goldUnlockRequirement = 50;
-                    currentShirtBonusUnlocked = 3.0f;
-                    requiresGold = true;
-                    break;
-                case(7):
-                    shirtName = "boy_leather_armor";
-                    goldUnlockRequirement = 100;
-                    currentShirtBonusUnlocked = 5.0f;
-                    requiresGold = true;
-                    break;
-                case(8):
-                    shirtName = "boy_green_leather_armor";
-                    goldUnlockRequirement = 150;
-                    currentShirtBonusUnlocked = 10.0f;
-                    requiresGold = true;
-                    break;
-                case(9):
-                    shirtName = "steel_armor";
-                    goldUnlockRequirement = 300;
-                    currentShirtBonusUnlocked = 30.0f;
-                    requiresGold = true;
-                    break;
-                case(10):
-                    shirtName = "gold_armor";
-                    goldUnlockRequirement = 500;
-                    currentShirtBonusUnlocked = 60.0f;
-                    requiresGold = true;
-                    break;
-                case(11):
-                    shirtName = "platinum_armor";
-                    diamondUnlockRequirement = 3;
-                    currentShirtBonusUnlocked = 100.0f;
-                    requiresGold = false;
-                    break;
-                case(12):
-                    shirtName = "diamond_armor";
-                    diamondUnlockRequirement = 8;
-                    currentShirtBonusUnlocked = 200.0f;
-                    requiresGold = false;
-                    break;
-                case(13):
-                    shirtName = "samurai_armor";
-                    goldUnlockRequirement = 2000;
-                    currentShirtBonusUnlocked = 500.0f;
-                    requiresGold = true;
-                    break;
-                case(14):
-                    shirtName = "rainbow_armor";
-                    diamondUnlockRequirement = 15;
-                    currentShirtBonusUnlocked = 1000.0f;
-                    requiresGold = false;
-                    break;
-                default:
-                    break;
-            }
-
-            if (position <=14){
-                if (requiresGold){
-                    //Unlock items/tell the user if you cant unlock them yet
-                    if (shirtLocked.getBoolean(shirtName, true) && currentGold >= goldUnlockRequirement){
-                        shirt.setImageResource(shirtDrawables[position]);
-                        currentShirt = position;
-                        shirtLocked.edit().putBoolean(shirtName, false).apply();
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                        currentGold = currentGold - goldUnlockRequirement;
-                    } else if (shirtLocked.getBoolean(shirtName, true) && currentGold < goldUnlockRequirement){
-                        Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + "gold to purchase this item", Toast.LENGTH_SHORT).show();
-                    } else {
-                        shirt.setImageResource(shirtDrawables[position]);
-                        currentShirt = position;
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                    }
-                } else {
-                    if (shirtLocked.getBoolean(shirtName, true) && currentDiamonds >= diamondUnlockRequirement){
-                        shirt.setImageResource(shirtDrawables[position]);
-                        currentShirt = position;
-                        shirtLocked.edit().putBoolean(shirtName, false).apply();
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                        currentDiamonds = currentDiamonds - diamondUnlockRequirement;
-                    } else if (shirtLocked.getBoolean(shirtName, true) && currentDiamonds < diamondUnlockRequirement){
-                        Toast.makeText(this, "Sorry, you need " + diamondUnlockRequirement  + " diamonds to purchase this item", Toast.LENGTH_SHORT).show();
-                    } else {
-                        shirt.setImageResource(shirtDrawables[position]);
-                        currentShirt = position;
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                    }
-                }
-            }
-
-        }
-        else if (currentGender.getString("gender", "").equals("girl")){
-            switch (position){
-                case(0):
-                    shirtName = "black_tank";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                case(1):
-                    shirtName = "red_tank";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(2):
-                    shirtName = "blue_tank";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(3):
-                    shirtName = "green_tankkkk";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(4):
-                    shirtName = "purple_tank";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(5):
-                    shirtName = "orange_tank";
-                    goldUnlockRequirement = 0;
-                    currentShirtBonusUnlocked = 0.0f;
-                    requiresGold = true;
-                    break;
-                case(6):
-                    shirtName = "tank_grey_black_striped";
-                    goldUnlockRequirement = 50;
-                    currentShirtBonusUnlocked = 3.0f;
-                    requiresGold = true;
-                    break;
-                case(7):
-                    shirtName = "girl_leather_armor";
-                    goldUnlockRequirement = 100;
-                    currentShirtBonusUnlocked = 5.0f;
-                    requiresGold = true;
-                    break;
-                case(8):
-                    shirtName = "girl_green_leather_armor";
-                    goldUnlockRequirement = 150;
-                    currentShirtBonusUnlocked = 10.0f;
-                    requiresGold = true;
-                    break;
-                case(9):
-                    shirtName = "steel_armor";
-                    goldUnlockRequirement = 300;
-                    currentShirtBonusUnlocked = 30.0f;
-                    requiresGold = true;
-                    break;
-                case(10):
-                    shirtName = "gold_armor";
-                    goldUnlockRequirement = 500;
-                    currentShirtBonusUnlocked = 60.0f;
-                    requiresGold = true;
-                    break;
-                case(11):
-                    shirtName = "platinum_armor";
-                    diamondUnlockRequirement = 3;
-                    currentShirtBonusUnlocked = 100.0f;
-                    requiresGold = false;
-                    break;
-                case(12):
-                    shirtName = "diamond_armor";
-                    diamondUnlockRequirement = 8;
-                    currentShirtBonusUnlocked = 200.0f;
-                    requiresGold = false;
-                    break;
-                case(13):
-                    shirtName = "samurai_armor";
-                    goldUnlockRequirement = 2000;
-                    currentShirtBonusUnlocked = 500.0f;
-                    requiresGold = true;
-                    break;
-                case(14):
-                    shirtName = "rainbow_armor";
-                    diamondUnlockRequirement = 15;
-                    currentShirtBonusUnlocked = 1000.0f;
-                    requiresGold = false;
-                    break;
-                default:
-                    break;
-            }
-
-            if (position <= 14){
-                if (requiresGold){
-                    //Unlock items/tell the user if you cant unlock them yet
-                    if (shirtLocked.getBoolean(shirtName, true) && currentGold >= goldUnlockRequirement){
-                        shirt.setImageResource(girlShirtDrawables[position]);
-                        currentShirt = position;
-                        shirtLocked.edit().putBoolean(shirtName, false).apply();
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                        currentGold = currentGold - goldUnlockRequirement;
-                    } else if (shirtLocked.getBoolean(shirtName, true) && currentGold < goldUnlockRequirement){
-                        Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
-                    } else {
-                        shirt.setImageResource(girlShirtDrawables[position]);
-                        currentShirt = position;
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                    }
-                } else {
-                    if (shirtLocked.getBoolean(shirtName, true) && currentDiamonds >= diamondUnlockRequirement){
-                        shirt.setImageResource(girlShirtDrawables[position]);
-                        currentShirt = position;
-                        shirtLocked.edit().putBoolean(shirtName, false).apply();
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                        currentDiamonds = currentDiamonds - diamondUnlockRequirement;
-                    } else if (shirtLocked.getBoolean(shirtName, true) && currentDiamonds < diamondUnlockRequirement){
-                        Toast.makeText(this, "Sorry, you need " + diamondUnlockRequirement  + " diamonds to purchase this item", Toast.LENGTH_SHORT).show();
-                    } else {
-                        shirt.setImageResource(girlShirtDrawables[position]);
-                        currentShirt = position;
-                        currentShirtBonus = currentShirtBonusUnlocked;
-                    }
-                }
-            }
-
-        }
-
-        //Store the shirt that was selected in the outfit sharedpreference
-        SharedPreferences shirt = getSharedPreferences("outfit", 0);
-        SharedPreferences.Editor shirt_editor = shirt.edit();
-        shirt_editor.putInt("currentShirt", currentShirt);
-        shirt_editor.apply();
-
-
-        //apply the new item's bonus health
-        maxHealth = maxHealth + currentShirtBonus;
-
-        SharedPreferences shirtHealth = getSharedPreferences("myPref", 0);
-        SharedPreferences.Editor bonus_health_editor = shirtHealth.edit();
-        bonus_health_editor.putFloat("shirtHealth", currentShirtBonus);
-        bonus_health_editor.apply();
-        bonus_health_editor.putFloat("maxHealth", maxHealth);
-        bonus_health_editor.apply();
-
-        currentMaxHealthInt = Math.round(maxHealth);
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-
-        //getHealthBar();
-        healthManager.setViews(currentHealth, maxHealth);
-
-        SharedPreferences.Editor goldEditor = sharedPreferences.edit();
-        goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
-        goldEditor.putInt("diamonds", currentDiamonds);
-        goldEditor.apply();
-
-        gold_int.setText(String.valueOf(currentGold));
-        diamond_int.setText(String.valueOf(currentDiamonds));
-
-
+        new PictureSelection(this, position,  shirt, healthManager, goldManager);
     }
 
     @Override
     public void onHatSelected(int position){
-
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        currentHatBonus = sharedPreferences.getFloat("hatHealth", 0.0f);
-        maxHealth = sharedPreferences.getFloat("maxHealth", 50.0f);
-        maxHealth = maxHealth - currentHatBonus;
-
-        SharedPreferences hatLocked = getSharedPreferences("hatLocked", 0);
-
-        int[] hatDrawables = new int[] {
-                R.drawable.boy_black_shirt, R.drawable.boy_red_shirt, R.drawable.boy_blue_shirt, R.drawable.boy_green_shirt,
-                R.drawable.boy_purple_shirt, R.drawable.boy_orange_shirt, R.drawable.boy_grey_black_striped_shirt, R.drawable.boy_leather_armor,
-                R.drawable.boy_green_leather_armor, R.drawable.steel_armor, R.drawable.gold_armor, R.drawable.platinum_armor,
-                R.drawable.diamond_armor, R.drawable.samurai_armor, R.drawable.rainbow_armor, R.drawable.blank, R.drawable.hat_wizard_transparent,
-                R.drawable.hat_knight_helmet, R.drawable.hat_viking, R.drawable.hat_knight_full, R.drawable.hat_wizard_orange_transparent,
-                R.drawable.hat_knight_full_gold, R.drawable.hat_knight_full_platinum, R.drawable.hat_knight_full_diamond, R.drawable.hat_wizard_black_transparent,
-                R.drawable.hat_knight_full_samurai, R.drawable.blank
-        };
-
-        switch (position){
-            case(15):
-                hatName = "blank";
-                goldUnlockRequirement = 0;
-                currentHatBonusUnlocked = 0.0f;
-                requiresGold = true;
-                break;
-            case(16):
-                hatName = "hat_wizard_transparent";
-                goldUnlockRequirement = 100;
-                currentHatBonusUnlocked = 8.0f;
-                requiresGold = true;
-                break;
-            case(17):
-                hatName = "hat_knight_helmet";
-                goldUnlockRequirement = 175;
-                currentHatBonusUnlocked = 14.0f;
-                requiresGold = true;
-                break;
-            case(18):
-                hatName = "hat_viking";
-                goldUnlockRequirement = 250;
-                currentHatBonusUnlocked = 22.0f;
-                requiresGold = true;
-                break;
-            case(19):
-                hatName = "hat_knight_full";
-                goldUnlockRequirement = 400;
-                currentHatBonusUnlocked = 30.0f;
-                requiresGold = true;
-                break;
-            case(20):
-                hatName = "hat_wizard_orange_transparent";
-                goldUnlockRequirement = 500;
-                currentHatBonusUnlocked = 38.0f;
-                requiresGold = true;
-                break;
-            case(21):
-                hatName = "hat_knight_full_gold";
-                goldUnlockRequirement = 750;
-                currentHatBonusUnlocked = 52.0f;
-                requiresGold = true;
-                break;
-            case(22):
-                hatName = "hat_knight_full_platinum";
-                goldUnlockRequirement = 1000;
-                currentHatBonusUnlocked = 88.0f;
-                requiresGold = true;
-                break;
-            case(23):
-                hatName = "hat_knight_full_diamond";
-                diamondUnlockRequirement = 10;
-                currentHatBonusUnlocked = 120.0f;
-                requiresGold = false;
-                break;
-            case(24):
-                hatName = "hat_wizard_black_transparent";
-                diamondUnlockRequirement = 15;
-                currentHatBonusUnlocked = 40.0f;
-                requiresGold = false;
-                break;
-            case(25):
-                hatName = "hat_knight_full_samurai";
-                diamondUnlockRequirement = 25;
-                currentHatBonusUnlocked = 144.0f;
-                requiresGold = false;
-                break;
-            case(26):
-                hatName = "blank";
-                goldUnlockRequirement = 0;
-                currentHatBonusUnlocked = 0.0f;
-                requiresGold = true;
-                break;
-            default:
-                break;
-        }
-
-        if (position > 14 && position <= 26){
-            if (requiresGold){
-                //Unlock items/tell the user if you cant unlock them yet
-                if (hatLocked.getBoolean(hatName, true) && currentGold >= goldUnlockRequirement){
-                    hat.setImageResource(hatDrawables[position]);
-                    currentHat = position;
-                    hatLocked.edit().putBoolean(hatName, false).apply();
-                    currentHatBonus = currentHatBonusUnlocked;
-                    currentGold = currentGold - goldUnlockRequirement;
-                } else if (hatLocked.getBoolean(hatName, true) && currentGold < goldUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    hat.setImageResource(hatDrawables[position]);
-                    currentHat = position;
-                    currentHatBonus = currentHatBonusUnlocked;
-                }
-            } else {
-                if (hatLocked.getBoolean(hatName, true) && currentDiamonds >= diamondUnlockRequirement){
-                    hat.setImageResource(hatDrawables[position]);
-                    currentHat = position;
-                    hatLocked.edit().putBoolean(hatName, false).apply();
-                    currentHatBonus = currentHatBonusUnlocked;
-                    currentDiamonds = currentDiamonds - diamondUnlockRequirement;
-                } else if (hatLocked.getBoolean(hatName, true) && currentDiamonds < diamondUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + diamondUnlockRequirement  + " diamonds to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    hat.setImageResource(hatDrawables[position]);
-                    currentHat = position;
-                    currentHatBonus = currentHatBonusUnlocked;
-                }
-            }
-        }
-
-        SharedPreferences hat = getSharedPreferences("hat", 0);
-        SharedPreferences.Editor hat_editor = hat.edit();
-        hat_editor.putInt("currentHat", currentHat);
-        hat_editor.apply();
-
-        //apply the new item's bonus health
-        maxHealth = maxHealth + currentHatBonus;
-
-        SharedPreferences hatHealth = getSharedPreferences("myPref", 0);
-        SharedPreferences.Editor bonus_health_editor = hatHealth.edit();
-        bonus_health_editor.putFloat("hatHealth", currentHatBonus);
-        bonus_health_editor.apply();
-        bonus_health_editor.putFloat("maxHealth", maxHealth);
-        bonus_health_editor.apply();
-
-        currentMaxHealthInt = Math.round(maxHealth);
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-
-        //getHealthBar();
-        healthManager.setViews(currentHealth, maxHealth);
-
-        SharedPreferences.Editor goldEditor = sharedPreferences.edit();
-        goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
-        goldEditor.putInt("diamonds", currentDiamonds);
-        goldEditor.apply();
-
-        gold_int.setText(String.valueOf(currentGold));
-        diamond_int.setText(String.valueOf(currentDiamonds));
+        new HatSelection(this, position, hat, healthManager, goldManager);
     }
 
     @Override
     public void onWeaponSelected(int position){
-
-        SharedPreferences weaponLocked = getSharedPreferences("weaponLocked", 0);
-
-        int[] weaponDrawables = new int[] {
-                R.drawable.boy_black_shirt, R.drawable.boy_red_shirt, R.drawable.boy_blue_shirt, R.drawable.boy_green_shirt,
-                R.drawable.boy_purple_shirt, R.drawable.boy_orange_shirt, R.drawable.boy_grey_black_striped_shirt, R.drawable.boy_leather_armor,
-                R.drawable.boy_green_leather_armor, R.drawable.steel_armor, R.drawable.gold_armor, R.drawable.platinum_armor,
-                R.drawable.diamond_armor, R.drawable.samurai_armor, R.drawable.rainbow_armor, R.drawable.blank, R.drawable.hat_wizard_transparent,
-                R.drawable.hat_knight_helmet, R.drawable.hat_viking, R.drawable.hat_knight_full, R.drawable.hat_wizard_orange_transparent,
-                R.drawable.hat_knight_full_gold, R.drawable.hat_knight_full_platinum, R.drawable.hat_knight_full_diamond, R.drawable.hat_wizard_black_transparent,
-                R.drawable.hat_knight_full_samurai, R.drawable.blank, R.drawable.blank, R.drawable.shield_white, R.drawable.shield_black, R.drawable.shield_pink,
-                R.drawable.shield_red, R.drawable.shield_green, R.drawable.shield_large_star, R.drawable.shield_large_green_lines, R.drawable.shield_large_blue_lightning,
-                R.drawable.shield_large_heart, R.drawable.samurai_shield, R.drawable.shield_rainbow, R.drawable.leggings_steel, R.drawable.leggings_gold, R.drawable.leggings_platinum,
-                R.drawable.leggings_diamond, R.drawable.leggings_samurai, R.drawable.leggings_rainbow, R.drawable.blank, R.drawable.short_sword,
-                R.drawable.long_sword, R.drawable.short_axe, R.drawable.axe, R.drawable.baseball_bat, R.drawable.shovel, R.drawable.fencing_sword,
-                R.drawable.spiked_baseball_bat, R.drawable.schimitar, R.drawable.sword_edged_orange_blue, R.drawable.spiked_sword, R.drawable.sword_glowing_blue,
-                R.drawable.honeycomb_sword, R.drawable.sword_edged_orange_blue_double
-        };
-        switch (position){
-            case(45):
-                weaponName = "blank";
-                goldUnlockRequirement = 0;
-                requiresGold = true;
-                break;
-            case(46):
-                weaponName = "short_sword";
-                goldUnlockRequirement = 50;
-                requiresGold = true;
-                break;
-            case(47):
-                weaponName = "long_sword";
-                goldUnlockRequirement = 100;
-                requiresGold = true;
-                break;
-            case(48):
-                weaponName = "short_axe";
-                goldUnlockRequirement = 175;
-                requiresGold = true;
-                break;
-            case(49):
-                weaponName = "axe";
-                goldUnlockRequirement = 250;
-                requiresGold = true;
-                break;
-            case(50):
-                weaponName = "baseball_bat";
-                goldUnlockRequirement = 300;
-                requiresGold = true;
-                break;
-            case(51):
-                weaponName = "shovel";
-                goldUnlockRequirement = 430;
-                requiresGold = true;
-                break;
-            case(52):
-                weaponName = "fencing_sword";
-                goldUnlockRequirement = 500;
-                requiresGold = true;
-                break;
-            case(53):
-                weaponName = "spiked_baseball_bat";
-                goldUnlockRequirement = 575;
-                requiresGold = true;
-                break;
-            case(54):
-                weaponName = "schimitar";
-                goldUnlockRequirement = 700;
-                requiresGold = true;
-                break;
-            case(55):
-                weaponName = "sword_edged_orange_blue";
-                diamondUnlockRequirement = 10;
-                requiresGold = false;
-                break;
-            case(56):
-                weaponName = "spiked_sword";
-                diamondUnlockRequirement = 15;
-                requiresGold = false;
-                break;
-            case(57):
-                weaponName = "sword_glowing_blue";
-                diamondUnlockRequirement = 20;
-                requiresGold = false;
-                break;
-            case(58):
-                weaponName = "honeycomb_sword";
-                goldUnlockRequirement = 2000;
-                requiresGold = true;
-                break;
-            case(59):
-                weaponName = "sword_edged_orange_blue_double";
-                diamondUnlockRequirement = 25;
-                requiresGold = false;
-                break;
-            default:
-                break;
-        }
-
-        if (position > 44 && position <= 59){
-            if (requiresGold){
-                //Unlock items/tell the user if you cant unlock them yet
-                if (weaponLocked.getBoolean(weaponName, true) && currentGold >= goldUnlockRequirement){
-                    weapon.setImageResource(weaponDrawables[position]);
-                    currentWeapon = position;
-                    weaponLocked.edit().putBoolean(weaponName, false).apply();
-                    currentGold = currentGold - goldUnlockRequirement;
-                } else if (weaponLocked.getBoolean(weaponName, true) && currentGold < goldUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    weapon.setImageResource(weaponDrawables[position]);
-                    currentWeapon = position;
-                }
-            } else {
-                if (weaponLocked.getBoolean(weaponName, true) && currentDiamonds >= diamondUnlockRequirement){
-                    weapon.setImageResource(weaponDrawables[position]);
-                    currentWeapon = position;
-                    weaponLocked.edit().putBoolean(weaponName, false).apply();
-                    currentDiamonds = currentDiamonds - diamondUnlockRequirement;
-                } else if (weaponLocked.getBoolean(weaponName, true) && currentDiamonds < diamondUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + diamondUnlockRequirement  + " diamonds to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    weapon.setImageResource(weaponDrawables[position]);
-                    currentWeapon = position;
-                }
-            }
-        }
-        SharedPreferences weapon = getSharedPreferences("weapon", 0);
-        SharedPreferences.Editor weapon_editor = weapon.edit();
-        weapon_editor.putInt("currentWeapon", currentWeapon);
-        weapon_editor.apply();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        SharedPreferences.Editor goldEditor = sharedPreferences.edit();
-        goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
-        goldEditor.putInt("diamonds", currentDiamonds);
-        goldEditor.apply();
-
-        gold_int.setText(String.valueOf(currentGold));
-        diamond_int.setText(String.valueOf(currentDiamonds));
+        new WeaponSelection(this, position, weapon, goldManager);
     }
 
     @Override
     public void onShieldSelected(int position){
-
-        SharedPreferences shieldLocked = getSharedPreferences("shieldLocked", 0);
-
-        int[] shieldDrawables = new int[] {
-                R.drawable.boy_black_shirt, R.drawable.boy_red_shirt, R.drawable.boy_blue_shirt, R.drawable.boy_green_shirt,
-                R.drawable.boy_purple_shirt, R.drawable.boy_orange_shirt, R.drawable.boy_grey_black_striped_shirt, R.drawable.boy_leather_armor,
-                R.drawable.boy_green_leather_armor, R.drawable.steel_armor, R.drawable.gold_armor, R.drawable.platinum_armor,
-                R.drawable.diamond_armor, R.drawable.samurai_armor, R.drawable.rainbow_armor, R.drawable.blank, R.drawable.hat_wizard_transparent,
-                R.drawable.hat_knight_helmet, R.drawable.hat_viking, R.drawable.hat_knight_full, R.drawable.hat_wizard_orange_transparent,
-                R.drawable.hat_knight_full_gold, R.drawable.hat_knight_full_platinum, R.drawable.hat_knight_full_diamond, R.drawable.hat_wizard_black_transparent,
-                R.drawable.hat_knight_full_samurai, R.drawable.blank, R.drawable.blank, R.drawable.shield_white, R.drawable.shield_black, R.drawable.shield_pink,
-                R.drawable.shield_red, R.drawable.shield_green, R.drawable.shield_large_star, R.drawable.shield_large_green_lines, R.drawable.shield_large_blue_lightning,
-                R.drawable.shield_large_heart, R.drawable.samurai_shield, R.drawable.shield_rainbow
-        };
-
-        switch (position){
-            case(27):
-                shieldName = "blank";
-                goldUnlockRequirement = 0;
-                requiresGold = true;
-                break;
-            case(28):
-                shieldName = "shield_white";
-                goldUnlockRequirement = 150;
-                requiresGold = true;
-                break;
-            case(29):
-                shieldName = "shield_black";
-                goldUnlockRequirement = 150;
-                requiresGold = true;
-                break;
-            case(30):
-                shieldName = "shield_pink";
-                goldUnlockRequirement = 150;
-                requiresGold = true;
-                break;
-            case(31):
-                shieldName = "shield_red";
-                goldUnlockRequirement = 150;
-                requiresGold = true;
-                break;
-            case(32):
-                shieldName = "shield_green";
-                goldUnlockRequirement = 150;
-                requiresGold = true;
-                break;
-            case(33):
-                shieldName = "shield_large_star";
-                goldUnlockRequirement = 450;
-                requiresGold = true;
-                break;
-            case(34):
-                shieldName = "shield_large_green_lines";
-                goldUnlockRequirement = 600;
-                requiresGold = true;
-                break;
-            case(35):
-                shieldName = "shield_large_blue_lightning";
-                diamondUnlockRequirement = 10;
-                requiresGold = false;
-                break;
-            case(36):
-                shieldName = "shield_large_heart";
-                goldUnlockRequirement = 1000;
-                requiresGold = true;
-                break;
-            case(37):
-                shieldName = "amurai_shield";
-                diamondUnlockRequirement = 15;
-                requiresGold = false;
-                break;
-            case(38):
-                shieldName = "shield_rainbow";
-                diamondUnlockRequirement = 20;
-                requiresGold = false;
-                break;
-            default:
-                break;
-        }
-
-        if (position > 26 && position <= 38){
-            if (requiresGold){
-                //Unlock items/tell the user if you cant unlock them yet
-                if (shieldLocked.getBoolean(shieldName, true) && currentGold >= goldUnlockRequirement){
-                    shield.setImageResource(shieldDrawables[position]);
-                    currentShield = position;
-                    shieldLocked.edit().putBoolean(shieldName, false).apply();
-                    currentGold = currentGold - goldUnlockRequirement;
-                } else if (shieldLocked.getBoolean(shieldName, true) && currentGold < goldUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    shield.setImageResource(shieldDrawables[position]);
-                    currentShield = position;
-                }
-            } else {
-                if (shieldLocked.getBoolean(shieldName, true) && currentDiamonds >= diamondUnlockRequirement){
-                    shield.setImageResource(shieldDrawables[position]);
-                    currentShield = position;
-                    shieldLocked.edit().putBoolean(shieldName, false).apply();
-                    currentDiamonds = currentDiamonds - diamondUnlockRequirement;
-                } else if (shieldLocked.getBoolean(shieldName, true) && currentDiamonds < diamondUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + diamondUnlockRequirement  + " diamonds to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    shield.setImageResource(shieldDrawables[position]);
-                    currentShield = position;
-                }
-            }
-        }
-
-        SharedPreferences shield = getSharedPreferences("shield", 0);
-        SharedPreferences.Editor shield_editor = shield.edit();
-        shield_editor.putInt("currentShield", currentShield);
-        shield_editor.apply();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        SharedPreferences.Editor goldEditor = sharedPreferences.edit();
-        goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
-        goldEditor.putInt("diamonds", currentDiamonds);
-        goldEditor.apply();
-
-        gold_int.setText(String.valueOf(currentGold));
-        diamond_int.setText(String.valueOf(currentDiamonds));
+        new ShieldSelection(this, position, shield, goldManager);
     }
 
     @Override
     public void onLeggingSelected(int position){
+        new LeggingSelection(this, position, legging, healthManager, goldManager);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        currentLeggingBonus = sharedPreferences.getFloat("leggingHealth", 0.0f);
-        maxHealth = sharedPreferences.getFloat("maxHealth", 50.0f);
-        maxHealth = maxHealth - currentLeggingBonus;
-
-        SharedPreferences leggingLocked = getSharedPreferences("leggingLocked", 0);
-
-        int[] leggingDrawables = new int[] {
-                R.drawable.boy_black_shirt, R.drawable.boy_red_shirt, R.drawable.boy_blue_shirt, R.drawable.boy_green_shirt,
-                R.drawable.boy_purple_shirt, R.drawable.boy_orange_shirt, R.drawable.boy_grey_black_striped_shirt, R.drawable.boy_leather_armor,
-                R.drawable.boy_green_leather_armor, R.drawable.steel_armor, R.drawable.gold_armor, R.drawable.platinum_armor,
-                R.drawable.diamond_armor, R.drawable.samurai_armor, R.drawable.rainbow_armor, R.drawable.blank, R.drawable.hat_wizard_transparent,
-                R.drawable.hat_knight_helmet, R.drawable.hat_viking, R.drawable.hat_knight_full, R.drawable.hat_wizard_orange_transparent,
-                R.drawable.hat_knight_full_gold, R.drawable.hat_knight_full_platinum, R.drawable.hat_knight_full_diamond, R.drawable.hat_wizard_black_transparent,
-                R.drawable.hat_knight_full_samurai, R.drawable.blank, R.drawable.blank, R.drawable.shield_white, R.drawable.shield_black, R.drawable.shield_pink,
-                R.drawable.shield_red, R.drawable.shield_green, R.drawable.shield_large_star, R.drawable.shield_large_green_lines, R.drawable.shield_large_blue_lightning,
-                R.drawable.shield_large_heart, R.drawable.samurai_shield, R.drawable.shield_rainbow, R.drawable.leggings_steel, R.drawable.leggings_gold, R.drawable.leggings_platinum,
-                R.drawable.leggings_diamond, R.drawable.leggings_samurai, R.drawable.leggings_rainbow
-        };
-
-        switch (position){
-            case(39):
-                leggingName = "leggings_steel";
-                goldUnlockRequirement = 50;
-                currentLeggingBonusUnlocked = 20.0f;
-                requiresGold = true;
-                break;
-            case(40):
-                leggingName = "leggings_gold";
-                goldUnlockRequirement = 100;
-                currentLeggingBonusUnlocked = 45.0f;
-                requiresGold = true;
-                break;
-            case(41):
-                leggingName = "leggings_platinum";
-                goldUnlockRequirement = 200;
-                currentLeggingBonusUnlocked = 88.0f;
-                requiresGold = true;
-                break;
-            case(42):
-                leggingName = "leggings_diamond";
-                goldUnlockRequirement = 325;
-                currentLeggingBonusUnlocked = 122.0f;
-                requiresGold = true;
-                break;
-            case(43):
-                leggingName = "leggings_samurai";
-                goldUnlockRequirement = 450;
-                currentLeggingBonusUnlocked = 158.0f;
-                requiresGold = true;
-                break;
-            case(44):
-                leggingName = "leggings_rainbow";
-                goldUnlockRequirement = 600;
-                currentLeggingBonusUnlocked = 222.0f;
-                requiresGold = true;
-                break;
-            default:
-                break;
-        }
-
-        if (position > 38 && position <= 44){
-            if (requiresGold){
-                //Unlock items/tell the user if you cant unlock them yet
-                if (leggingLocked.getBoolean(leggingName, true) && currentGold >= goldUnlockRequirement){
-                    legging.setImageResource(leggingDrawables[position]);
-                    currentLegging = position;
-                    leggingLocked.edit().putBoolean(leggingName, false).apply();
-                    currentLeggingBonus = currentLeggingBonusUnlocked;
-                    currentGold = currentGold - goldUnlockRequirement;
-                } else if (leggingLocked.getBoolean(leggingName, true) && currentGold < goldUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + goldUnlockRequirement  + " gold to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    legging.setImageResource(leggingDrawables[position]);
-                    currentLeggingBonus = currentLeggingBonusUnlocked;
-                    currentLegging = position;
-                }
-            } else {
-                if (leggingLocked.getBoolean(leggingName, true) && currentDiamonds >= diamondUnlockRequirement){
-                    legging.setImageResource(leggingDrawables[position]);
-                    currentLegging = position;
-                    leggingLocked.edit().putBoolean(leggingName, false).apply();
-                    currentLeggingBonus = currentLeggingBonusUnlocked;
-                    currentDiamonds = currentDiamonds - diamondUnlockRequirement;
-                } else if (leggingLocked.getBoolean(leggingName, true) && currentDiamonds < diamondUnlockRequirement){
-                    Toast.makeText(this, "Sorry, you need " + diamondUnlockRequirement  + " diamonds to purchase this item", Toast.LENGTH_SHORT).show();
-                } else {
-                    legging.setImageResource(leggingDrawables[position]);
-                    currentLeggingBonus = currentLeggingBonusUnlocked;
-                    currentLegging = position;
-                }
-            }
-        }
-        SharedPreferences legging = getSharedPreferences("legging", 0);
-        SharedPreferences.Editor legging_editor = legging.edit();
-        legging_editor.putInt("currentLegging", currentLegging);
-        legging_editor.apply();
-
-        //apply the new item's bonus health
-        maxHealth = maxHealth + currentLeggingBonus;
-
-        SharedPreferences leggingHealth = getSharedPreferences("myPref", 0);
-        SharedPreferences.Editor bonus_health_editor = leggingHealth.edit();
-        bonus_health_editor.putFloat("leggingHealth", currentLeggingBonus);
-        bonus_health_editor.apply();
-        bonus_health_editor.putFloat("maxHealth", maxHealth);
-        bonus_health_editor.apply();
-
-        currentMaxHealthInt = Math.round(maxHealth);
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-
-        //getHealthBar();
-        healthManager.setViews(currentHealth, maxHealth);
-
-        SharedPreferences.Editor goldEditor = sharedPreferences.edit();
-        goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
-        goldEditor.putInt("diamonds", currentDiamonds);
-        goldEditor.apply();
-
-        gold_int.setText(String.valueOf(currentGold));
-        diamond_int.setText(String.valueOf(currentDiamonds));
     }
 }
