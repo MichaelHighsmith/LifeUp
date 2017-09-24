@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -39,9 +40,6 @@ import java.util.Random;
 
 public class MainActivity extends FragmentActivity implements FirstFragment.OnHeadlineSelectedListener, ThirdFragment.OnHeadlinesSelectedListener, FourthFragment.OnRewardSelectedListener, FifthFragment.OnHealthRestoreListener{
 
-    //int experience;
-    //MyPageAdapter pageAdapter;
-
     private AdView mAdView;
 
     TextView experience_int;
@@ -55,7 +53,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
 
     int currentExperience;
     int maxExperience;
-    int experience;
     int currentLevel;
     int gold;
     int currentGold;
@@ -64,7 +61,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
     int currentHealthInt;
     int currentMaxHealthInt;
 
-    float health;
     float currentHealth;
     float maxHealth;
     float currentShirtBonus;
@@ -82,7 +78,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
     String characterSelection;
     String playerName;
 
-    String bought_shirt;
     String shirtName;
     String hatName;
     String shieldName;
@@ -101,16 +96,19 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
     ImageView health_bar;
 
     final String FIRST_TIME =  "MyFirstTime";
-    final String FIRST_TASK_ADDED = "FirstTaskAdded";
+
+    ExpToLevel expToLevel;
+    GoldManager goldManager;
+    HealthManager healthManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        //mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //mAdView.loadAd(adRequest);
 
         //If it's the user's first time using the app, launch the intro dialog, if not then create the fragments.
         SharedPreferences settings = getSharedPreferences(FIRST_TIME, 0);
@@ -164,21 +162,27 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         playerName = sharedPreferences.getString("name","");
         currentHealth = sharedPreferences.getFloat("health", 50.0f);
         maxHealth = sharedPreferences.getFloat("maxHealth", 50.0f);
-        gold_int.setText(String.valueOf(currentGold));
+        //gold_int.setText(String.valueOf(currentGold));
         diamond_int.setText(String.valueOf(currentDiamonds));
-        experience_int.setText(String.valueOf(currentExperience));
+
         player_name.setText(playerName);
         currentHealthInt = Math.round(currentHealth);
         currentMaxHealthInt = Math.round(maxHealth);
         if (currentHealthInt <= 0){
             currentHealthInt = 0;
         }
-        current_health.setText(String.valueOf(currentHealthInt));
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-        getHealthBar();
+        //current_health.setText(String.valueOf(currentHealthInt));
+        //max_health.setText(String.valueOf(currentMaxHealthInt));
+        //getHealthBar();
 
-        //Use the experience to determine what level we are at
-        experienceToLevel(currentExperience);
+        //Initialize a new experience object (When this object is created it updates the textviews)
+        expToLevel = new ExpToLevel(experience_int, experience_max_int, level_int, currentExperience);
+
+        //Initialize a new gold manager object
+        goldManager = new GoldManager(gold_int, currentGold);
+
+        healthManager = new HealthManager(health_bar, current_health, max_health, currentHealth, maxHealth);
+
 
         //Add a textChangedListener to tell when the level changes.  If it changes, launch level up dialog
         level_int.addTextChangedListener(new TextWatcher() {
@@ -240,7 +244,8 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         gold_int.setText(String.valueOf(currentGold));
         currentDiamonds = sharedPref.getInt("diamonds", 0);
         diamond_int.setText(String.valueOf(currentDiamonds));
-        getHealthBar();
+        //getHealthBar();
+        healthManager.setViews(currentHealth, maxHealth);
         if (mAdView != null) {
             mAdView.resume();
         }
@@ -286,60 +291,38 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
 
         //depending on the current difficulty, change the boost given
         if (currentDifficulty == TaskContract.TaskEntry.DIFFICULTY_EASY){
-            boost = random.nextInt(10);
+            boost = random.nextInt(20);
         } else if (currentDifficulty == TaskContract.TaskEntry.DIFFICULTY_MEDIUM){
-            boost = random.nextInt(30);
+            boost = random.nextInt(35);
         } else{
             boost = random.nextInt(50); //DIFFICULTY_HARD
         }
 
         //Implement sharedPreferences to keep data persistence for level
         SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
-        //get the current gold amount
-        currentGold = sharedPref.getInt("gold", 0);
-        //Get the amount of gold about to be added
-        gold = boost/2 + 25;
-        //add to the current gold
-        currentGold = currentGold + gold;
-        //get the current experience
-        currentExperience = sharedPref.getInt("experience", 1);
-        //get the amound of experience about to be added
-        experience = boost + 10;
-        //add to the current experience
-        currentExperience = currentExperience + experience;
 
-        Toast.makeText(this, "Gained " + gold + " gold and " + experience + " experience!", Toast.LENGTH_SHORT).show();
+        //add Gold
+        currentGold = goldManager.addGold(boost);
+
+        expToLevel.addExperience(boost);
+        int[] xpValues = expToLevel.getExperienceValues();
+        currentExperience = xpValues[0];
+        maxExperience = xpValues[1];
+
+        //Toast.makeText(this, "Gained " + gold + " gold and " + experience + " experience!", Toast.LENGTH_SHORT).show();
 
         currentHealth = sharedPref.getFloat("health", 50.0f);
         maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
 
-        //if health is less that max, heal the user
-        if(currentHealth + 10.0f < maxHealth){
-            currentHealth += 10.0f;
-        } else if (currentHealth < maxHealth){
-            currentHealth = maxHealth;
-        }
-
+        currentHealth = healthManager.gainHealth();
 
         //Store the new gold and experience
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("experience", currentExperience);
-        editor.apply();
         editor.putInt("gold", currentGold);
-        editor.apply();
         editor.putFloat("health", currentHealth);
+        editor.putInt("maxExperience", maxExperience);
         editor.apply();
-
-        current_health.setText(String.valueOf(currentHealthInt));
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-        getHealthBar();
-
-        //Set the textviews to display udpated experience and gold
-        experience_int.setText(String.valueOf(currentExperience));
-        gold_int.setText(String.valueOf(currentGold));
-
-        //Determine what level we are at based upon the experience level
-        experienceToLevel(currentExperience);
 
         //If the frequency is set to once, then delete the task after it has been pressed
         if (currentFrequency == 0){
@@ -352,7 +335,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
     @Override
     public void onRewardSelected(int position){
 
-        //TODO implement this with the spinners for notifications onTaskSelected
         //Instantiate a RewardDbHelper and database
         RewardDbHelper mDbHelper = new RewardDbHelper(getApplicationContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -378,65 +360,37 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
         currentGold = sharedPref.getInt("gold", 0);
 
-        //Make sure the gold stays positive (i.e. if the cost is greater than the user has, don't change anything);
-        if(currentGold < currentCost){
-            Toast.makeText(this, "You don't have enough gold to do this!", Toast.LENGTH_SHORT).show();
-        } else {
-            currentGold = currentGold - currentCost;
-            //Get the current health
-            currentHealth = sharedPref.getFloat("health", 50.0f);
-            maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
-            if(currentHealth >= 5.0f){
-                currentHealth = currentHealth - 5.0f;
-            }
-        }
+        try{
+            currentGold = goldManager.spendReward(currentCost);
+            currentHealth = healthManager.loseHealth();
 
+        } catch (RuntimeException e){
+            Toast.makeText(this, "You don't have enough gold to do this!", Toast.LENGTH_SHORT).show();
+        }
 
 
         SharedPreferences.Editor goldEditor = sharedPref.edit();
         goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
         goldEditor.putFloat("health", currentHealth);
         goldEditor.apply();
-
-        gold_int.setText(String.valueOf(currentGold));
-
-        currentHealthInt = Math.round(currentHealth);
-        currentMaxHealthInt = Math.round(maxHealth);
-        if (currentHealthInt <= 0){
-            currentHealthInt = 0;
-        }
-        current_health.setText(String.valueOf(currentHealthInt));
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-        getHealthBar();
-
     }
 
     public void onHealthRestoreButtonClicked(){
         SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
-        currentHealth = sharedPref.getFloat("health", 50.0f);
-        maxHealth = sharedPref.getFloat("maxHealth", 50.0f);
-        currentGold = sharedPref.getInt("gold", 0);
-        if(currentHealth < maxHealth && currentGold >= 20){
-            currentHealth = maxHealth;
-            currentGold = currentGold - 20;
-        } else if(currentHealth < maxHealth){
+
+        try{
+            currentGold = healthManager.healthRestored(currentGold);
+        }catch(NullPointerException e){
             Toast.makeText(this, "Sorry, you need more gold.  Complete some tasks!", Toast.LENGTH_SHORT).show();
-        } else{
+        }catch(RuntimeException e){
             Toast.makeText(this, "You're already on full health!", Toast.LENGTH_SHORT).show();
         }
+
         SharedPreferences.Editor goldEditor = sharedPref.edit();
         goldEditor.putInt("gold", currentGold);
-        goldEditor.apply();
         goldEditor.putFloat("health", currentHealth);
         goldEditor.apply();
-
-        //update the image/textviews for the values after healing
-        current_health.setText(String.valueOf(currentHealthInt));
-        max_health.setText(String.valueOf(currentMaxHealthInt));
-        gold_int.setText(String.valueOf(currentGold));
-        getHealthBar();
-
+        goldManager.setTextViews(currentGold);
 
     }
 
@@ -462,64 +416,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
                 default: return ThirdFragment.newInstance("ThirdFragment, Default");
             }
         }
-    }
-
-    //Determines the level # based upon the amount of experience (eventually boil this down to a simple formula)
-    public void experienceToLevel(int experience){
-
-        //get the sharedpref for max xp so we can update it
-        SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
-        maxExperience = sharedPref.getInt("maxExperience", 10);
-
-
-        if (10 < experience && experience <= 100 && currentLevel != 2){
-            currentLevel = 2;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 100;
-        } else if (100 < experience  && experience <= 200 && currentLevel != 3){
-            currentLevel = 3;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 200;
-        } else if (200 < experience && experience <= 350 && currentLevel != 4){
-            currentLevel = 4;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 350;
-        } else if (350 < experience && experience <= 500 && currentLevel != 5){
-            currentLevel = 5;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 500;
-        } else if (500 < experience && experience <= 750 && currentLevel != 6){
-            currentLevel = 6;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 750;
-        } else if (750 < experience && experience <= 950 && currentLevel != 7){
-            currentLevel = 7;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 950;
-        } else if (950 < experience && experience <= 1200 && currentLevel != 8){
-            currentLevel = 8;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 1200;
-        } else if (1200 < experience && experience <= 1500 && currentLevel != 9){
-            currentLevel = 9;
-            level_int.setText(String.valueOf(currentLevel));
-            maxExperience = 1500;
-        } else if (1500 < experience){
-            //continue leveling up indefinitely
-            int experienceLevelFactor = experience / 250;
-            if(currentLevel != experienceLevelFactor + 4){
-                currentLevel = experienceLevelFactor + 4;
-                maxExperience = (currentLevel * 250) - 750;
-                level_int.setText(String.valueOf(currentLevel));
-                experience_max_int.setText(String.valueOf(maxExperience));
-            }
-        }
-
-        SharedPreferences.Editor experienceEditor = sharedPref.edit();
-        experienceEditor.putInt("maxExperience", maxExperience);
-        experienceEditor.apply();
-        experience_max_int.setText(String.valueOf(maxExperience));
-
     }
 
     public void levelUpDialog(){
@@ -566,7 +462,8 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         currentMaxHealthInt = Math.round(maxHealth);
         current_health.setText(String.valueOf(currentHealthInt));
         max_health.setText(String.valueOf(currentMaxHealthInt));
-        getHealthBar();
+        //getHealthBar();
+        healthManager.setViews(currentHealth, maxHealth);
 
     }
 
@@ -724,50 +621,6 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         wlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
 
         dialog.show();
-    }
-
-    public void getHealthBar(){
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", 0);
-        currentHealth = sharedPreferences.getFloat("health", 50.0f);
-        maxHealth = sharedPreferences.getFloat("maxHealth", 50.0f);
-        if(currentHealth / maxHealth >= 100.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar_full);
-        } else if (currentHealth / maxHealth > 92.0f/100.0f && currentHealth / maxHealth < 100.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar11);
-        } else if (currentHealth / maxHealth > 84.0f/100.0f && currentHealth / maxHealth <= 92.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar10);
-        } else if (currentHealth / maxHealth > 76.0f/100.0f && currentHealth / maxHealth < 84.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar9);
-        } else if (currentHealth / maxHealth > 68.0f/100.0f && currentHealth / maxHealth <= 76.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar8);
-        } else if (currentHealth / maxHealth > 60.0f/100.0f && currentHealth / maxHealth < 68.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar7);
-        } else if (currentHealth / maxHealth > 52.0f/100.0f && currentHealth / maxHealth <= 60.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar6);
-        } else if (currentHealth / maxHealth > 44.0f/100.0f && currentHealth / maxHealth < 52.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar5);
-        } else if (currentHealth / maxHealth > 36.0f/100.0f && currentHealth / maxHealth <= 44.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar4);
-        } else if (currentHealth / maxHealth > 28.0f/100.0f && currentHealth / maxHealth < 36.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar3);
-        } else if (currentHealth / maxHealth > 20.0f/100.0f && currentHealth / maxHealth <= 28.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar2);
-        } else if (currentHealth / maxHealth > 12.0f/100.0f && currentHealth / maxHealth <= 20.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar1);
-        } else if (currentHealth / maxHealth > 0.0f/100.0f && currentHealth / maxHealth <= 12.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar0);
-        }else if (currentHealth / maxHealth == 0.0f/100.0f){
-            health_bar.setImageResource(R.drawable.health_bar_empty);
-        }
-
-        //adjust the health bar text
-        currentHealthInt = Math.round(currentHealth);
-        currentMaxHealthInt = Math.round(maxHealth);
-        if (currentHealthInt <= 0){
-            currentHealthInt = 0;
-        }
-        current_health.setText(String.valueOf(currentHealthInt));
-        max_health.setText(String.valueOf(currentMaxHealthInt));
     }
 
     //Called whenever a picture is clicked in the images fragment
@@ -1081,7 +934,8 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         currentMaxHealthInt = Math.round(maxHealth);
         max_health.setText(String.valueOf(currentMaxHealthInt));
 
-        getHealthBar();
+        //getHealthBar();
+        healthManager.setViews(currentHealth, maxHealth);
 
         SharedPreferences.Editor goldEditor = sharedPreferences.edit();
         goldEditor.putInt("gold", currentGold);
@@ -1243,7 +1097,8 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         currentMaxHealthInt = Math.round(maxHealth);
         max_health.setText(String.valueOf(currentMaxHealthInt));
 
-        getHealthBar();
+        //getHealthBar();
+        healthManager.setViews(currentHealth, maxHealth);
 
         SharedPreferences.Editor goldEditor = sharedPreferences.edit();
         goldEditor.putInt("gold", currentGold);
@@ -1640,7 +1495,8 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         currentMaxHealthInt = Math.round(maxHealth);
         max_health.setText(String.valueOf(currentMaxHealthInt));
 
-        getHealthBar();
+        //getHealthBar();
+        healthManager.setViews(currentHealth, maxHealth);
 
         SharedPreferences.Editor goldEditor = sharedPreferences.edit();
         goldEditor.putInt("gold", currentGold);

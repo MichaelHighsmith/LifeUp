@@ -44,49 +44,11 @@ public class TaskCursorAdapter extends CursorAdapter {
         //Read the task attributes from the Cursor for the current task
         String taskName = cursor.getString(nameColumnIndex);
 
-        checkForHiddenIcons(taskName);
+        TaskPhotoMatcher photoMatcher = new TaskPhotoMatcher();
+        photoMatcher.checkForHiddenIcons(taskName, iconImage);
 
         //Update the textview with the nes attribute
         nameTextView.setText(taskName);
-
-
-    }
-
-    //Checks a variety of possible text inputs and if it matches the users input then displays an icon in the task.  Because why not have some fun surprises?!
-    public void checkForHiddenIcons(String taskName){
-        if (taskName.contains("Workout") || taskName.contains("Exercise") || taskName.contains("Lift") ||
-                taskName.contains("workout") || taskName.contains("exercise") || taskName.contains("lift")){
-            iconImage.setImageResource(R.drawable.workout_icon);
-        } else if (taskName.contains("Run") || taskName.contains("Jog") || taskName.contains("Cardio") ||
-                taskName.contains("run") || taskName.contains("jog") || taskName.contains("cardio")){
-            iconImage.setImageResource(R.drawable.run_icon);
-        } else if (taskName.contains("Read") || taskName.contains("Study") || taskName.contains("Write") ||
-                taskName.contains("read") || taskName.contains("study") || taskName.contains("write") ||
-                taskName.contains("Work") || taskName.contains("work")){
-            iconImage.setImageResource(R.drawable.book_icon);
-        } else if (taskName.contains("Drink") || taskName.contains("drink") || taskName.contains("Water") || taskName.contains("water") ||
-                taskName.contains("Swim") || taskName.contains("swim")){
-            iconImage.setImageResource(R.drawable.water_drop);
-        } else if (taskName.contains("Pack") || taskName.contains("pack") || taskName.contains("Travel") || taskName.contains("travel") ||
-                taskName.contains("Fly") || taskName.contains("fly")){
-            iconImage.setImageResource(R.drawable.suitcase);
-        } else if (taskName.contains("Groceries") || taskName.contains("groceries") || taskName.contains("Food") || taskName.contains("food") ||
-                taskName.contains("Eat") || taskName.contains("eat")){
-            iconImage.setImageResource(R.drawable.apple);
-        } else if (taskName.contains("Drive") || taskName.contains("drive") || taskName.contains("Car") || taskName.contains("car") ||
-                taskName.contains("Move") || taskName.contains("move")){
-            iconImage.setImageResource(R.drawable.car);
-        } else if (taskName.contains("Shop") || taskName.contains("shop") || taskName.contains("Save") || taskName.contains("save") ||
-                taskName.contains("Bank") || taskName.contains("bank") || taskName.contains("Money") || taskName.contains("money") ||
-                taskName.contains("Cash") || taskName.contains("cash") || taskName.contains("Buy") || taskName.contains("buy")){
-            iconImage.setImageResource(R.drawable.money);
-        } else if (taskName.contains("Sleep") || taskName.contains("sleep") || taskName.contains("Wake") || taskName.contains("wake") ||
-                taskName.contains("Bed") || taskName.contains("bed") || taskName.contains("Rest") || taskName.contains("rest") ||
-                taskName.contains("Meditate") || taskName.contains("meditate")){
-            iconImage.setImageResource(R.drawable.zs);
-        } else{
-            iconImage.setImageResource(R.drawable.climb_icon);
-        }
 
     }
 }
