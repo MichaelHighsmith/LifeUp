@@ -10,9 +10,6 @@ import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.COLUMN_TASK_NAME;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.TABLE_NAME;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry._ID;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class TaskDbHelper extends SQLiteOpenHelper {
 

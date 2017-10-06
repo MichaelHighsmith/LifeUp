@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.satyrlabs.lifeup.R;
 import com.satyrlabs.lifeup.data.RewardsContract;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class RewardsCursorAdapter extends CursorAdapter {
 

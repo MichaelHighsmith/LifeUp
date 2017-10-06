@@ -1,10 +1,14 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.stats;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.satyrlabs.lifeup.R;
+import com.satyrlabs.lifeup.stats.GoldManager;
+import com.satyrlabs.lifeup.stats.HealthManager;
 
 
 public class PictureSelection extends AppCompatActivity {

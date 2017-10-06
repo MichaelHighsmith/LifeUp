@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
+import com.satyrlabs.lifeup.adapters.GirlImageAdapter;
+import com.satyrlabs.lifeup.adapters.ImageAdapter;
+import com.satyrlabs.lifeup.R;
+
 
 public class ThirdFragment extends Fragment {
 

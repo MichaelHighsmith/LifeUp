@@ -9,9 +9,6 @@ import static com.satyrlabs.lifeup.data.RewardsContract.RewardsEntry.COLUMN_REWA
 import static com.satyrlabs.lifeup.data.RewardsContract.RewardsEntry.TABLE_NAME;
 import static com.satyrlabs.lifeup.data.RewardsContract.RewardsEntry._ID;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class RewardDbHelper extends SQLiteOpenHelper {
 

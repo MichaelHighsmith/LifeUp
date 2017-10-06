@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.Fragments;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -20,11 +20,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.satyrlabs.lifeup.R;
+import com.satyrlabs.lifeup.adapters.RewardsCursorAdapter;
+import com.satyrlabs.lifeup.ui.RewardsEditorAcitivity;
 import com.satyrlabs.lifeup.data.RewardsContract;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class FourthFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 

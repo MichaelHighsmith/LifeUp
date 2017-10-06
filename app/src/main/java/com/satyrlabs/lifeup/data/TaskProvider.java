@@ -15,9 +15,6 @@ import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.CONTEN_LIST_TYPE;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.TABLE_NAME;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry._ID;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class TaskProvider extends ContentProvider {
 

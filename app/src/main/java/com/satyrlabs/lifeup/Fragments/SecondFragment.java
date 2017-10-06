@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
+import com.satyrlabs.lifeup.R;
+
 
 public class SecondFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -7,9 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
+import com.satyrlabs.lifeup.R;
+
 
 //ImageAdapter for the boy selection
 public class ImageAdapter extends BaseAdapter {

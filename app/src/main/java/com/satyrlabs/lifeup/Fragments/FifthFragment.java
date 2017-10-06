@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
+import com.satyrlabs.lifeup.ui.BattleActivity;
+import com.satyrlabs.lifeup.R;
+
 
 public class FifthFragment extends Fragment {
 

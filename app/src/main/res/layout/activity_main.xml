@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.satyrlabs.lifeup.MainActivity">
+    tools:context="com.satyrlabs.lifeup.ui.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

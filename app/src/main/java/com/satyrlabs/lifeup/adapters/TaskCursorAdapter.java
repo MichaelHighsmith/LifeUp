@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.satyrlabs.lifeup.R;
+import com.satyrlabs.lifeup.stats.TaskPhotoMatcher;
+
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.COLUMN_TASK_NAME;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class TaskCursorAdapter extends CursorAdapter {
 

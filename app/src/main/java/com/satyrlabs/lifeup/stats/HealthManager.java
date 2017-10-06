@@ -1,9 +1,11 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.stats;
 
 
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.satyrlabs.lifeup.R;
 
 public class HealthManager extends AppCompatActivity {
 

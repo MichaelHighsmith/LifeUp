@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.ui;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.satyrlabs.lifeup.R;
+
 import java.util.Random;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class BattleActivity extends AppCompatActivity {
 

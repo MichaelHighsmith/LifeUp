@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.stats;
 
 import android.app.Activity;
 import android.content.Context;

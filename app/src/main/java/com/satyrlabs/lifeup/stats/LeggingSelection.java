@@ -1,13 +1,14 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.stats;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-/**
- * Created by mhigh on 9/24/2017.
- */
+import com.satyrlabs.lifeup.R;
+import com.satyrlabs.lifeup.stats.GoldManager;
+import com.satyrlabs.lifeup.stats.HealthManager;
+
 
 public class LeggingSelection {
 

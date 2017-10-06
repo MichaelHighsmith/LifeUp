@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.ui;
 
 import android.app.Dialog;
 import android.content.ContentUris;
@@ -8,17 +8,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -29,12 +26,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.ads.AdRequest;
+
 import com.google.android.gms.ads.AdView;
+import com.satyrlabs.lifeup.Fragments.FifthFragment;
+import com.satyrlabs.lifeup.Fragments.FirstFragment;
+import com.satyrlabs.lifeup.Fragments.FourthFragment;
+import com.satyrlabs.lifeup.Fragments.ThirdFragment;
+import com.satyrlabs.lifeup.R;
 import com.satyrlabs.lifeup.data.RewardDbHelper;
 import com.satyrlabs.lifeup.data.RewardsContract;
 import com.satyrlabs.lifeup.data.TaskContract;
 import com.satyrlabs.lifeup.data.TaskDbHelper;
+import com.satyrlabs.lifeup.stats.ExpToLevel;
+import com.satyrlabs.lifeup.stats.GoldManager;
+import com.satyrlabs.lifeup.stats.HatSelection;
+import com.satyrlabs.lifeup.stats.HealthManager;
+import com.satyrlabs.lifeup.stats.LeggingSelection;
+import com.satyrlabs.lifeup.stats.PictureSelection;
+import com.satyrlabs.lifeup.stats.ShieldSelection;
+import com.satyrlabs.lifeup.stats.WeaponSelection;
 
 import java.util.Random;
 
@@ -84,9 +94,9 @@ public class MainActivity extends FragmentActivity implements FirstFragment.OnHe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        //mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //mAdView.loadAd(adRequest);
 
         //If it's the user's first time using the app, launch the intro dialog, if not then create the fragments.
         SharedPreferences settings = getSharedPreferences(FIRST_TIME, 0);

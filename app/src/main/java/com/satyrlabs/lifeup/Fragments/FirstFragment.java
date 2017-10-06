@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.Fragments;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -20,14 +20,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
 
+import com.satyrlabs.lifeup.R;
+import com.satyrlabs.lifeup.adapters.TaskCursorAdapter;
+import com.satyrlabs.lifeup.ui.TaskEditorActivity;
+
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.COLUMN_TASK_DIFFICULTY;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.COLUMN_TASK_NAME;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.CONTENT_URI;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry._ID;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class FirstFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

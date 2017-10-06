@@ -4,9 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public final class RewardsContract {
 

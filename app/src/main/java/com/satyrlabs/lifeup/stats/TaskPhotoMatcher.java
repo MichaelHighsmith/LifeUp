@@ -1,6 +1,8 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.stats;
 
 import android.widget.ImageView;
+
+import com.satyrlabs.lifeup.R;
 
 
 public class TaskPhotoMatcher {

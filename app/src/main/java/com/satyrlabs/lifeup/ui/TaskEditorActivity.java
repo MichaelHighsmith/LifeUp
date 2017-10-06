@@ -1,4 +1,4 @@
-package com.satyrlabs.lifeup;
+package com.satyrlabs.lifeup.ui;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -9,7 +9,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -20,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.satyrlabs.lifeup.R;
 
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.COLUMN_TASK_DIFFICULTY;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.COLUMN_TASK_FREQUENCY;
@@ -32,9 +33,6 @@ import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.FREQUENCY_DAILY;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.FREQUENCY_PERIODICALLY;
 import static com.satyrlabs.lifeup.data.TaskContract.TaskEntry.FREQUENCY_WEEKLY;
 
-/**
- * Created by mhigh on 6/22/2017.
- */
 
 public class TaskEditorActivity extends AppCompatActivity {
 
